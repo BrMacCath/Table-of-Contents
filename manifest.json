@@ -1,11 +1,10 @@
 {
-	"id": "sample-plugin",
-	"name": "Sample Plugin",
+	"id": "Table of Contents: Automatic but compatible with Publish",
+	"name": "Table of contents compatible with Publish",
 	"version": "1.0.0",
 	"minAppVersion": "0.15.0",
-	"description": "Demonstrates some of the capabilities of the Obsidian API.",
-	"author": "Obsidian",
-	"authorUrl": "https://obsidian.md",
-	"fundingUrl": "https://obsidian.md/pricing",
+	"description": "This generates a table of contents that is compatible with Obsidian publish.",
+	"author": "Brian Collery",
+	"authorUrl": "https://github.com/BrMacCath",
 	"isDesktopOnly": false
 }
