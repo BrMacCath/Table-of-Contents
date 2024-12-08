@@ -1,134 +1,111 @@
-import { App, Editor, MarkdownView, Modal, Notice, Plugin, PluginSettingTab, Setting } from 'obsidian';
-
-// Remember to rename these classes and interfaces!
-
-interface MyPluginSettings {
-	mySetting: string;
-}
-
-const DEFAULT_SETTINGS: MyPluginSettings = {
-	mySetting: 'default'
-}
+import { Command, Plugin } from "obsidian";
 
 export default class MyPlugin extends Plugin {
-	settings: MyPluginSettings;
+	statusBarTextElement: HTMLSpanElement;
+	public splitMarkdownUp(file?: string): string[] | void {
+		// Split file into two parts
+		if (file == undefined) {
+			return file;
+		}
+		const frontMatterCheckLine = "---";
+		if (file.slice(0, 3) != frontMatterCheckLine) {
+			return ["", file];
+		}
+		const frontMatterEndString = "\n---\n";
+		const endFrontMatter = file.indexOf(frontMatterEndString);
+		if (endFrontMatter == -1) {
+			return ["", file];
+		}
+		const splitIndex = endFrontMatter + frontMatterEndString.length;
+		return [file.slice(0, splitIndex), file.slice(splitIndex)];
+	}
 
-	async onload() {
-		await this.loadSettings();
+	public contentToTOC(fileName: string, content?: String): string | void {
+		// Create TOC
+		if (content != undefined) {
+			const headings = content
+				.split("\n# ")
+				.filter((t) => t.trim() != "");
+			let table_of_contents = "\n";
 
-		// This creates an icon in the left ribbon.
-		const ribbonIconEl = this.addRibbonIcon('dice', 'Sample Plugin', (evt: MouseEvent) => {
-			// Called when the user clicks the icon.
-			new Notice('This is a notice!');
-		});
-		// Perform additional things with the ribbon
-		ribbonIconEl.addClass('my-plugin-ribbon-class');
+			let heading_1 = 1;
 
-		// This adds a status bar item to the bottom of the app. Does not work on mobile apps.
-		const statusBarItemEl = this.addStatusBarItem();
-		statusBarItemEl.setText('Status Bar Text');
-
-		// This adds a simple command that can be triggered anywhere
-		this.addCommand({
-			id: 'open-sample-modal-simple',
-			name: 'Open sample modal (simple)',
-			callback: () => {
-				new SampleModal(this.app).open();
-			}
-		});
-		// This adds an editor command that can perform some operation on the current editor instance
-		this.addCommand({
-			id: 'sample-editor-command',
-			name: 'Sample editor command',
-			editorCallback: (editor: Editor, view: MarkdownView) => {
-				console.log(editor.getSelection());
-				editor.replaceSelection('Sample Editor Command');
-			}
-		});
-		// This adds a complex command that can check whether the current state of the app allows execution of the command
-		this.addCommand({
-			id: 'open-sample-modal-complex',
-			name: 'Open sample modal (complex)',
-			checkCallback: (checking: boolean) => {
-				// Conditions to check
-				const markdownView = this.app.workspace.getActiveViewOfType(MarkdownView);
-				if (markdownView) {
-					// If checking is true, we're simply "checking" if the command can be run.
-					// If checking is false, then we want to actually perform the operation.
-					if (!checking) {
-						new SampleModal(this.app).open();
-					}
-
-					// This command will only show up in Command Palette when the check function returns true
-					return true;
+			headings.forEach((first) => {
+				let heading_1_title = first.slice(0, first.indexOf("\n"));
+				if (heading_1_title[0] == "#") {
+					heading_1_title = heading_1_title.slice(2);
 				}
-			}
+
+				table_of_contents += `${heading_1}. [[${fileName}# ${heading_1_title}|${heading_1_title}]]\n`;
+				heading_1 += 1;
+
+				const test_heading_2 = first.indexOf("\n## ");
+				console.log(test_heading_2);
+
+				if (test_heading_2 != -1) {
+					console.log("here");
+					const heading_2_list = first.split("\n## ").slice(1);
+					let heading_2 = 1;
+					heading_2_list.forEach((second) => {
+						const heading_2_title = second.slice(
+							0,
+							second.indexOf("\n")
+						);
+						table_of_contents += `\t${heading_2}. [[${fileName}## ${heading_2_title}|${heading_2_title}]]\n`;
+						heading_2 += 1;
+						const test_heading_3 = second.indexOf("### ");
+						if (test_heading_3 == -1) {
+							console.log("No third indent");
+						}
+						const heading_3_list = first.split("\n### ").slice(1);
+						let heading_3 = 1;
+						heading_3_list.forEach((third) => {
+							const heading_3_title = third.slice(
+								0,
+								third.indexOf("\n")
+							);
+							table_of_contents += `\t\t${heading_3}. [[${fileName}### ${heading_3_title}|${heading_3_title}]]\n`;
+							heading_3 += 1;
+						});
+					});
+				}
+			});
+			return table_of_contents;
+		}
+		console.log(fileName + " was not defined");
+		return content;
+	}
+	onload(): Promise<void> | void {
+		this.addCommand({
+			id: "print-greeting-to-console",
+			name: "Print greeting to console",
+			callback: () => {
+				console.log("Hey, you!");
+			},
 		});
-
-		// This adds a settings tab so the user can configure various aspects of the plugin
-		this.addSettingTab(new SampleSettingTab(this.app, this));
-
-		// If the plugin hooks up any global DOM events (on parts of the app that doesn't belong to this plugin)
-		// Using this function will automatically remove the event listener when this plugin is disabled.
-		this.registerDomEvent(document, 'click', (evt: MouseEvent) => {
-			console.log('click', evt);
+		this.addCommand({
+			id: "create-table-of-contents",
+			name: "Create Table Of Contents",
+			callback: async () => {
+				const file = this.app.workspace.getActiveFile();
+				console.log(file);
+				if (file) {
+					const fileContent = await this.app.vault.read(file);
+					const fileSplit = this.splitMarkdownUp(fileContent);
+					if (fileSplit != undefined) {
+						const frontmatter = fileSplit[0];
+						const content = fileSplit[1];
+						const toc = this.contentToTOC(file.basename, content);
+						console.log(frontmatter);
+						console.log(toc);
+						console.log(content);
+						const result = frontmatter + toc + content;
+						this.app.vault.modify(file, result);
+					}
+				}
+			},
 		});
-
-		// When registering intervals, this function will automatically clear the interval when the plugin is disabled.
-		this.registerInterval(window.setInterval(() => console.log('setInterval'), 5 * 60 * 1000));
 	}
 
-	onunload() {
-
-	}
-
-	async loadSettings() {
-		this.settings = Object.assign({}, DEFAULT_SETTINGS, await this.loadData());
-	}
-
-	async saveSettings() {
-		await this.saveData(this.settings);
-	}
-}
-
-class SampleModal extends Modal {
-	constructor(app: App) {
-		super(app);
-	}
-
-	onOpen() {
-		const {contentEl} = this;
-		contentEl.setText('Woah!');
-	}
-
-	onClose() {
-		const {contentEl} = this;
-		contentEl.empty();
-	}
-}
-
-class SampleSettingTab extends PluginSettingTab {
-	plugin: MyPlugin;
-
-	constructor(app: App, plugin: MyPlugin) {
-		super(app, plugin);
-		this.plugin = plugin;
-	}
-
-	display(): void {
-		const {containerEl} = this;
-
-		containerEl.empty();
-
-		new Setting(containerEl)
-			.setName('Setting #1')
-			.setDesc('It\'s a secret')
-			.addText(text => text
-				.setPlaceholder('Enter your secret')
-				.setValue(this.plugin.settings.mySetting)
-				.onChange(async (value) => {
-					this.plugin.settings.mySetting = value;
-					await this.plugin.saveSettings();
-				}));
-	}
+	//addCommand(command: Command): Command {}
 }

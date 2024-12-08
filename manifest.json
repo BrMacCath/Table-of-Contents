@@ -1,6 +1,6 @@
 {
-	"id": "Table of Contents: Automatic but compatible with Publish",
-	"name": "Table of contents compatible with Publish",
+	"id": "Table-of-Contents:-Automatic-but-compatible-with-Publish",
+	"name": "TOC compatible with Publish",
 	"version": "1.0.0",
 	"minAppVersion": "0.15.0",
 	"description": "This generates a table of contents that is compatible with Obsidian publish.",
