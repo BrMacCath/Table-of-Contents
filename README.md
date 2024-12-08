@@ -4,6 +4,10 @@
 
 > Table of contents plugin that will be compatible with Obsidian Publish.
 
+# How to use
+
+When the plugin is installed. press Ctrl + p to open the command window and then type create table of contents. For now this will create a table of contents for a file at the top of the file.
+
 # Road map
 
 -   [x] Create a first version of the plugin. This should just be able to make a table of contents.
