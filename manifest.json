@@ -3,7 +3,7 @@
 	"name": "TOC compatible with Publish",
 	"version": "1.1.0",
 	"minAppVersion": "0.15.0",
-	"description": "This generates a table of contents that is compatible with Obsidian publish.",
+	"description": "This generates a table of contents that is compatible with publish.",
 	"author": "Brian Collery",
 	"authorUrl": "https://github.com/BrMacCath",
 	"isDesktopOnly": false
