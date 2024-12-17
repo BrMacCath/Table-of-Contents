@@ -1,7 +1,7 @@
 {
-	"name": "obsidian-sample-plugin",
-	"version": "1.0.0",
-	"description": "This is a sample plugin for Obsidian (https://obsidian.md)",
+	"name": "TOC compatible with Publish",
+	"version": "1.1.0",
+	"description": "This generates a table of contents that is compatible with Obsidian publish.",
 	"main": "main.js",
 	"scripts": {
 		"dev": "node esbuild.config.mjs",

@@ -12,8 +12,8 @@ When the plugin is installed. press Ctrl + p to open the command window and then
 
 -   [x] Create a first version of the plugin. This should just be able to make a table of contents.
 -   [ ] Create Demonstration file.
--   [ ] Add a feature to allow for updating the table of contents.
--   [ ] Create a feature that allows the app to recognise that there is a table of contents and where without interfering with publish.
+-   [x] Add a feature to allow for updating the table of contents.
+-   [x] Create a feature that allows the app to recognise that there is a table of contents. This will allow the plugin to update the toc in a manner that will be recognised by obsidian publish.
 -   [ ] Add a feature that will automatically update the table of contents.
 -   [ ] Allow for different formats of table of contents.
 
@@ -21,10 +21,11 @@ When the plugin is installed. press Ctrl + p to open the command window and then
 
 This project uses [semver](http://semver.org/).
 
-| version | Date      | Notes         |
-| ------- | --------- | ------------- |
-| `1.1.0` | 2024-12-7 | First Release |
-| `1.0.0` | 2024-12-5 | Sample Plugin |
+| version | Date       | Notes                    |
+| ------- | ---------- | ------------------------ |
+| `2.0.0` | 2024-12-17 | Allows toc to be updated |
+| `1.1.0` | 2024-12-7  | First Release            |
+| `1.0.0` | 2024-12-5  | Sample Plugin            |
 
 ## License
 

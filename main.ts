@@ -1,109 +1,165 @@
-import { Command, Plugin } from "obsidian";
+import { Command, Plugin, TFile } from "obsidian";
 
-export default class MyPlugin extends Plugin {
+export default class AutoTOC extends Plugin {
 	statusBarTextElement: HTMLSpanElement;
+	tableStart = "<!-- Table of Contents ";
+	endComment = "-->";
+	endTable = "<!-- End of TOC -->";
 	public splitMarkdownUp(file?: string): string[] | void {
 		// Split file into two parts
 		if (file == undefined) {
 			return file;
 		}
 		const frontMatterCheckLine = "---";
+		const tocStart = file.indexOf(this.tableStart);
 		if (file.slice(0, 3) != frontMatterCheckLine) {
-			return ["", file];
+			if (tocStart == -1) {
+				return ["", "", "", file];
+			}
+			const tocEnd = file.indexOf(this.endTable) + this.endTable.length;
+			return [
+				"",
+				file.slice(0, tocStart),
+				file.slice(tocStart, tocEnd),
+				file.slice(tocEnd),
+			];
 		}
 		const frontMatterEndString = "\n---\n";
 		const endFrontMatter = file.indexOf(frontMatterEndString);
+
 		if (endFrontMatter == -1) {
-			return ["", file];
+			if (tocStart == -1) {
+				return ["", "", "", file];
+			}
+			const tocEnd = file.indexOf(this.endTable) + this.endTable.length;
+			return [
+				"",
+				file.slice(0, tocStart),
+				file.slice(tocStart, tocEnd),
+				file.slice(tocEnd),
+			];
 		}
+
+		if (tocStart == -1) {
+			const splitIndex = endFrontMatter + frontMatterEndString.length;
+			return [file.slice(0, splitIndex), "", "", file.slice(splitIndex)];
+		}
+		const tocEnd = file.indexOf(this.endTable) + this.endTable.length;
 		const splitIndex = endFrontMatter + frontMatterEndString.length;
-		return [file.slice(0, splitIndex), file.slice(splitIndex)];
+		return [
+			file.slice(0, splitIndex),
+			file.slice(splitIndex, tocStart),
+			file.slice(tocStart, tocEnd),
+			file.slice(tocEnd),
+		];
+	}
+	public createSubheading(
+		fileName: String,
+		tabLength: number,
+		content: String
+	) {
+		if (content == undefined) {
+			return "";
+		}
+		let subheadingContent = "";
+		const heading = "#".repeat(tabLength) + " ";
+		const tabIndent = "\t".repeat(tabLength - 1);
+		const splitText = "\n" + heading;
+		const headings = content.split(splitText).filter((t) => t.trim() != "");
+		let headingNum = 1;
+		headings.forEach((section) => {
+			const lineCheck = section.indexOf("\n");
+			const lineSplit = lineCheck == -1 ? section.length : lineCheck;
+			let headingTitle = section.slice(0, lineSplit);
+			if (headingTitle.slice(0, heading.length) == heading) {
+				headingTitle = headingTitle.slice(heading.length);
+			}
+			subheadingContent += `${tabIndent}${headingNum}. [[${fileName}${heading}${headingTitle}|${headingTitle}]]\n`;
+			headingNum += 1;
+			const subheading = heading.replace(" ", "#");
+			const subheadingLocation = section.indexOf(subheading);
+			if (subheadingLocation != -1) {
+				subheadingContent += this.createSubheading(
+					fileName,
+					tabLength + 1,
+					section.slice(subheadingLocation)
+				);
+			}
+		});
+		return subheadingContent;
 	}
 
 	public contentToTOC(fileName: string, content?: String): string | void {
 		// Create TOC
-		if (content != undefined) {
-			const headings = content
-				.split("\n# ")
-				.filter((t) => t.trim() != "");
-			let table_of_contents = "\n";
-
-			let heading_1 = 1;
-
-			headings.forEach((first) => {
-				let heading_1_title = first.slice(0, first.indexOf("\n"));
-				if (heading_1_title[0] == "#") {
-					heading_1_title = heading_1_title.slice(2);
-				}
-
-				table_of_contents += `${heading_1}. [[${fileName}# ${heading_1_title}|${heading_1_title}]]\n`;
-				heading_1 += 1;
-
-				const test_heading_2 = first.indexOf("\n## ");
-				console.log(test_heading_2);
-
-				if (test_heading_2 != -1) {
-					console.log("here");
-					const heading_2_list = first.split("\n## ").slice(1);
-					let heading_2 = 1;
-					heading_2_list.forEach((second) => {
-						const heading_2_title = second.slice(
-							0,
-							second.indexOf("\n")
-						);
-						table_of_contents += `\t${heading_2}. [[${fileName}## ${heading_2_title}|${heading_2_title}]]\n`;
-						heading_2 += 1;
-						const test_heading_3 = second.indexOf("### ");
-						if (test_heading_3 == -1) {
-							console.log("No third indent");
-						}
-						const heading_3_list = first.split("\n### ").slice(1);
-						let heading_3 = 1;
-						heading_3_list.forEach((third) => {
-							const heading_3_title = third.slice(
-								0,
-								third.indexOf("\n")
-							);
-							table_of_contents += `\t\t${heading_3}. [[${fileName}### ${heading_3_title}|${heading_3_title}]]\n`;
-							heading_3 += 1;
-						});
-					});
-				}
-			});
-			return table_of_contents;
+		if (content == undefined) {
+			console.log(fileName + " was not defined");
+			return content;
 		}
-		console.log(fileName + " was not defined");
-		return content;
+		let table_of_contents = this.tableStart + this.endComment + "\n";
+		const tabCheck = content.indexOf("# ");
+		if (tabCheck != -1) {
+			table_of_contents +=
+				this.createSubheading(fileName, 1, content) + "\n";
+		}
+
+		table_of_contents += this.endTable + "\n";
+		return table_of_contents;
 	}
+
+	public async createToc(file: TFile | null) {
+		if (file) {
+			const fileContent = await this.app.vault.read(file);
+			const fileSplit = this.splitMarkdownUp(fileContent);
+			if (fileSplit != undefined) {
+				const frontmatter = fileSplit[0];
+				const preTOC = fileSplit[1];
+				const postTOC = fileSplit[3];
+				const content = preTOC + postTOC;
+				const toc = this.contentToTOC(file.basename, content);
+				const result =
+					frontmatter + preTOC + toc + "\n" + postTOC.trim();
+				this.app.vault.modify(file, result);
+			}
+		}
+	}
+	public async checkToc(file: TFile | null): Promise<Boolean> {
+		if (!file) {
+			return false;
+		}
+		const fileContent = await this.app.vault.read(file);
+		const tocStart = fileContent.indexOf(this.tableStart);
+		if (tocStart == -1) {
+			return false;
+		}
+		const tocEnd = fileContent.indexOf(this.endTable);
+		if (tocEnd > tocStart) {
+			return true;
+		}
+		return false;
+	}
+
 	onload(): Promise<void> | void {
-		this.addCommand({
-			id: "print-greeting-to-console",
-			name: "Print greeting to console",
-			callback: () => {
-				console.log("Hey, you!");
-			},
-		});
 		this.addCommand({
 			id: "create-table-of-contents",
 			name: "Create Table Of Contents",
 			callback: async () => {
 				const file = this.app.workspace.getActiveFile();
-				console.log(file);
-				if (file) {
-					const fileContent = await this.app.vault.read(file);
-					const fileSplit = this.splitMarkdownUp(fileContent);
-					if (fileSplit != undefined) {
-						const frontmatter = fileSplit[0];
-						const content = fileSplit[1];
-						const toc = this.contentToTOC(file.basename, content);
-						console.log(frontmatter);
-						console.log(toc);
-						console.log(content);
-						const result = frontmatter + toc + content;
-						this.app.vault.modify(file, result);
-					}
-				}
+				this.createToc(file);
 			},
+		});
+		this.app.workspace.on("active-leaf-change", async () => {
+			const file = this.app.workspace.getActiveFile();
+			if (!file) {
+				return;
+			}
+			if (file) {
+				const checkTOC = await this.checkToc(file);
+				if (checkTOC) {
+					this.createToc(file);
+					console.log("Reran TOC");
+				}
+				return;
+			}
 		});
 	}
 
