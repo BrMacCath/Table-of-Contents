@@ -5,11 +5,8 @@ export default class AutoTOC extends Plugin {
 	tableStart = "<!-- Table of Contents ";
 	endComment = "-->";
 	endTable = "<!-- End of TOC -->";
-	public splitMarkdownUp(file?: string): string[] | void {
-		// Split file into two parts
-		if (file == undefined) {
-			return file;
-		}
+	tocTitle = "# Table of Contents\n";
+	public splitMarkdownUp(file: string): string[] {
 		const frontMatterCheckLine = "---";
 		const tocStart = file.indexOf(this.tableStart);
 		if (file.slice(0, 3) != frontMatterCheckLine) {
@@ -54,9 +51,9 @@ export default class AutoTOC extends Plugin {
 		];
 	}
 	public createSubheading(
-		fileName: String,
+		fileName: string,
 		tabLength: number,
-		content: String
+		content: string
 	) {
 		if (content == undefined) {
 			return "";
@@ -89,43 +86,30 @@ export default class AutoTOC extends Plugin {
 		return subheadingContent;
 	}
 
-	public contentToTOC(fileName: string, content?: String): string | void {
+	public contentToTOC(fileName: string, content: string): string {
 		// Create TOC
-		if (content == undefined) {
-			console.log(fileName + " was not defined");
-			return content;
-		}
-		let table_of_contents = this.tableStart + this.endComment + "\n";
+		let table_of_contents =
+			this.tableStart + this.endComment + "\n" + this.tocTitle;
 		const tabCheck = content.indexOf("# ");
 		if (tabCheck != -1) {
 			table_of_contents +=
 				this.createSubheading(fileName, 1, content) + "\n";
 		}
-
 		table_of_contents += this.endTable + "\n";
 		return table_of_contents;
 	}
 
-	public async createToc(file: TFile | null) {
-		if (file) {
-			const fileContent = await this.app.vault.read(file);
-			const fileSplit = this.splitMarkdownUp(fileContent);
-			if (fileSplit != undefined) {
-				const frontmatter = fileSplit[0];
-				const preTOC = fileSplit[1];
-				const postTOC = fileSplit[3];
-				const content = preTOC + postTOC;
-				const toc = this.contentToTOC(file.basename, content);
-				const result =
-					frontmatter + preTOC + toc + "\n" + postTOC.trim();
-				this.app.vault.modify(file, result);
-			}
-		}
+	public createToc(fileContent: string, fileName: string): string {
+		const fileSplit = this.splitMarkdownUp(fileContent);
+		const frontmatter = fileSplit[0];
+		const preTOC = fileSplit[1];
+		const postTOC = fileSplit[3];
+		const content = preTOC + postTOC;
+		const toc = this.contentToTOC(fileName, content);
+		const result = frontmatter + preTOC + toc + "\n" + postTOC.trim();
+		return result;
 	}
-	public async checkToc(file: TFile | null): Promise<Boolean> {
-		if (!file) {
-			return false;
-		}
+	public async checkToc(file: TFile): Promise<Boolean> {
 		const fileContent = await this.app.vault.read(file);
 		const tocStart = fileContent.indexOf(this.tableStart);
 		if (tocStart == -1) {
@@ -137,31 +121,37 @@ export default class AutoTOC extends Plugin {
 		}
 		return false;
 	}
-
 	onload(): Promise<void> | void {
 		this.addCommand({
 			id: "create-table-of-contents",
-			name: "Create Table Of Contents",
+			name: "Create table of contents",
 			callback: async () => {
 				const file = this.app.workspace.getActiveFile();
-				this.createToc(file);
+				if (file) {
+					const fileContent = await this.app.vault.read(file);
+					const fileName = file.basename;
+					this.app.vault.process(file, (fileContent) => {
+						return this.createToc(fileContent, fileName);
+					});
+				}
 			},
 		});
-		this.app.workspace.on("active-leaf-change", async () => {
-			const file = this.app.workspace.getActiveFile();
-			if (!file) {
-				return;
-			}
-			if (file) {
+		this.registerEvent(
+			this.app.workspace.on("active-leaf-change", async () => {
+				const file = this.app.workspace.getActiveFile();
+				if (!file) {
+					return;
+				}
 				const checkTOC = await this.checkToc(file);
 				if (checkTOC) {
-					this.createToc(file);
-					console.log("Reran TOC");
+					const fileContent = await this.app.vault.read(file);
+					const fileName = file.basename;
+					this.app.vault.process(file, (fileContent) => {
+						return this.createToc(fileContent, fileName);
+					});
 				}
 				return;
-			}
-		});
+			})
+		);
 	}
-
-	//addCommand(command: Command): Command {}
 }

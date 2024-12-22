@@ -8,10 +8,12 @@
 
 When the plugin is installed. press Ctrl + p to open the command window and then type create table of contents. For now this will create a table of contents for a file at the top of the file.
 
+<img src="/assets/example.gif" />
+
 # Road map
 
 -   [x] Create a first version of the plugin. This should just be able to make a table of contents.
--   [ ] Create Demonstration file.
+-   [x] Create Demonstration file.
 -   [x] Add a feature to allow for updating the table of contents.
 -   [x] Create a feature that allows the app to recognise that there is a table of contents. This will allow the plugin to update the toc in a manner that will be recognised by obsidian publish.
 -   [ ] Add a feature that will automatically update the table of contents.
@@ -23,6 +25,7 @@ This project uses [semver](http://semver.org/).
 
 | version | Date       | Notes                    |
 | ------- | ---------- | ------------------------ |
+| `2.1.0` | 2024-12-22 | Added title to TOC       |
 | `2.0.0` | 2024-12-17 | Allows toc to be updated |
 | `1.1.0` | 2024-12-7  | First Release            |
 | `1.0.0` | 2024-12-5  | Sample Plugin            |
