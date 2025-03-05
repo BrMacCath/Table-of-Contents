@@ -62,7 +62,13 @@ export default class AutoTOC extends Plugin {
 		const heading = "#".repeat(tabLength) + " ";
 		const tabIndent = "\t".repeat(tabLength - 1);
 		const splitText = "\n" + heading;
-		const headings = content.split(splitText).filter((t) => t.trim() != "");
+		const contentStartsWithHeading = content[0] =="#";
+		
+		let headings = content.split(splitText).filter((t) => t.trim() != "");
+		// If the content does not start with a heading it should not be counted.
+		if(!contentStartsWithHeading){
+			headings = headings.slice(1);
+		}
 		let headingNum = 1;
 		headings.forEach((section) => {
 			const lineCheck = section.indexOf("\n");
