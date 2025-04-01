@@ -1,6 +1,6 @@
 {
 	"name": "TOC compatible with Publish",
-	"version": "2.0.0",
+	"version": "2.1.1",
 	"description": "Supports an automatically updatable table of contents. This table will work with publish.",
 	"main": "main.js",
 	"scripts": {
