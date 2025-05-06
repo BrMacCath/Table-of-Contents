@@ -16,7 +16,7 @@ When the plugin is installed. press Ctrl + p to open the command window and then
 -   [x] Create Demonstration file.
 -   [x] Add a feature to allow for updating the table of contents.
 -   [x] Create a feature that allows the app to recognise that there is a table of contents. This will allow the plugin to update the toc in a manner that will be recognised by obsidian publish.
--   [ ] Add a feature that will automatically update the table of contents.
+-   [x] Add a feature that will automatically update the table of contents.
 -   [ ] Allow for different formats of table of contents.
 
 # Changelog
@@ -25,6 +25,7 @@ This project uses [semver](http://semver.org/).
 
 | version | Date       | Notes                    |
 | ------- | ---------- | ------------------------ |
+| `2.2.0` | 2025-05-05 | TOC automatically updates |
 | `2.1.0` | 2024-12-22 | Added title to TOC       |
 | `2.0.0` | 2024-12-17 | Allows toc to be updated |
 | `1.1.0` | 2024-12-7  | First Release            |

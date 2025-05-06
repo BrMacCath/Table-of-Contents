@@ -92,10 +92,10 @@ export default class AutoTOC extends Plugin {
 		return subheadingContent;
 	}
 
-	public contentToTOC(fileName: string, content: string): string {
+	public contentToTOC(fileName: string, content: string, arrowType: string =""): string {
 		// Create TOC
 		let table_of_contents =
-			this.tableStart + this.endComment + "\n" + this.tocTitle;
+			this.tableStart + arrowType +this.endComment + "\n" + this.tocTitle;
 		const tabCheck = content.indexOf("# ");
 		if (tabCheck != -1) {
 			table_of_contents +=
@@ -104,14 +104,27 @@ export default class AutoTOC extends Plugin {
 		table_of_contents += this.endTable + "\n";
 		return table_of_contents;
 	}
+	public arrowType(tocHeading:string):string{
+		let styleText = tocHeading.slice(this.tableStart.length, -this.endTable.length).trim();
+		let arrowType:string;
+		switch (styleText){
+			case "":
+				arrowType = "default";
+				break;
+			default:
+				arrowType = "default";
+		}
+		return arrowType;
+	}
 
 	public createToc(fileContent: string, fileName: string): string {
 		const fileSplit = this.splitMarkdownUp(fileContent);
 		const frontmatter = fileSplit[0];
 		const preTOC = fileSplit[1];
+		let arrowType = this.arrowType(fileSplit[2]);
 		const postTOC = fileSplit[3];
 		const content = preTOC + postTOC;
-		const toc = this.contentToTOC(fileName, content);
+		const toc = this.contentToTOC(fileName, content,arrowType);
 		const result = frontmatter + preTOC + toc + "\n" + postTOC.trim();
 		return result;
 	}
@@ -144,6 +157,23 @@ export default class AutoTOC extends Plugin {
 		});
 		this.registerEvent(
 			this.app.workspace.on("active-leaf-change", async () => {
+				const file = this.app.workspace.getActiveFile();
+				if (!file) {
+					return;
+				}
+				const checkTOC = await this.checkToc(file);
+				if (checkTOC) {
+					const fileContent = await this.app.vault.read(file);
+					const fileName = file.basename;
+					this.app.vault.process(file, (fileContent) => {
+						return this.createToc(fileContent, fileName);
+					});
+				}
+				return;
+			})
+		);
+		this.registerEvent(
+			this.app.workspace.on("editor-change", async () => {
 				const file = this.app.workspace.getActiveFile();
 				if (!file) {
 					return;
