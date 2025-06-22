@@ -1,8 +1,8 @@
 {
 	"name": "TOC compatible with Publish",
-	"version": "2.2.0",
+	"version": "2.3.0",
 	"description": "Supports an automatically updatable table of contents. This table will work with publish.",
-	"main": "main.js",
+	"main": "src/main.js",
 	"scripts": {
 		"dev": "node esbuild.config.mjs",
 		"build": "tsc -noEmit -skipLibCheck && node esbuild.config.mjs production",
