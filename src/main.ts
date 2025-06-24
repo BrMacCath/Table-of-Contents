@@ -1,6 +1,7 @@
 import {  Plugin } from "obsidian";
 import { createToc } from "./markdownFunctions/createToc";
 import { checkToc } from "./markdownFunctions/checkTOC";
+import { waitTime } from "./waitMechanic/wait";
 
 export default class AutoTOC extends Plugin {
 	statusBarTextElement: HTMLSpanElement;

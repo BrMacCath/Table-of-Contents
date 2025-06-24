@@ -1,5 +1,6 @@
 import { tableStart,endTable } from "src/globalData/globalData";
-
+// Splits up the markdown file up into its parts, namely
+// [frontmatter, preTOC, TOC, postTOC]
 
 export function splitMarkdownUp(file: string): string[] {
     const frontMatterCheckLine = "---";

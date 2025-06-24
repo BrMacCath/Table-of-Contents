@@ -10,9 +10,8 @@ export function createSubheading(
     const heading = "#".repeat(tabLength) + " ";
     const tabIndent = "\t".repeat(tabLength - 1);
     const splitText = "\n" + heading;
-    const contentStartsWithHeading = content[0] =="#";
-    
-    let headings = content.split(splitText).filter((t) => t.trim() != "");
+    const contentStartsWithHeading = content.trim()[0] =="#";
+    let headings = content.trim().split(splitText).filter((t) => t.trim() != "");
     // If the content does not start with a heading it should not be counted.
     if(!contentStartsWithHeading){
         headings = headings.slice(1);
@@ -30,7 +29,7 @@ export function createSubheading(
         const subheading = heading.replace(" ", "#");
         const subheadingLocation = section.indexOf(subheading);
         if (subheadingLocation != -1) {
-            subheadingContent += this.createSubheading(
+            subheadingContent += createSubheading(
                 fileName,
                 tabLength + 1,
                 section.slice(subheadingLocation)
