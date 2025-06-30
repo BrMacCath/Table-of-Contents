@@ -1,7 +1,13 @@
 import {  Plugin } from "obsidian";
 import { createToc } from "./markdownFunctions/createToc";
 import { checkToc } from "./markdownFunctions/checkTOC";
-import { waitTime } from "./waitMechanic/wait";
+import { splitMarkdownUp } from "./markdownFunctions/splitMarkdownUp";
+import { arrowType } from "./markdownFunctions/arrowType";
+import { contentToTOC } from "./markdownFunctions/contentToToc";
+import { endTable, tableStart } from "./globalData/globalData";
+
+
+// Maybe use app.process instead of app.read and app.modify
 
 export default class AutoTOC extends Plugin {
 	statusBarTextElement: HTMLSpanElement;
@@ -29,8 +35,13 @@ export default class AutoTOC extends Plugin {
 				const checkTOC = await checkToc(file);
 				if (checkTOC) {
 					const fileName = file.basename;
+					const fileSplit = splitMarkdownUp(await this.app.vault.read(file));
+					let arrowTypeTOC = arrowType(fileSplit[2]);
+					const content = fileSplit[1] + fileSplit[3];
+					const toc = contentToTOC(fileName, content,arrowTypeTOC);
+					const Re = new RegExp(tableStart  + ".+" + endTable)
 					this.app.vault.process(file, (fileContent) => {
-						return createToc(fileContent, fileName);
+						return fileContent.replace(Re,toc);
 					});
 				}
 				return;
