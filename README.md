@@ -25,6 +25,7 @@ This project uses [semver](http://semver.org/).
 
 | version | Date       | Notes                    |
 | ------- | ---------- | ------------------------ |
+| `2.3.2` |2025-07-03| No longer modifies the table if nothing has changed|
 | `2.3.1` |2025-06-30| Fixed a bug that sometimes clipped words people are writing|
 | `2.3.0` | 2025-06-23 | No longer adds headings in callouts or quotes|
 | `2.2.0` | 2025-05-05 | TOC automatically updates |
