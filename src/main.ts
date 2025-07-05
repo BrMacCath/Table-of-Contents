@@ -1,11 +1,8 @@
 import {  Plugin } from "obsidian";
 import { createToc } from "./markdownFunctions/createToc";
 import { checkToc } from "./markdownFunctions/checkTOC";
-import { splitMarkdownUp } from "./markdownFunctions/splitMarkdownUp";
-import { arrowType } from "./markdownFunctions/arrowType";
-import { contentToTOC } from "./markdownFunctions/contentToToc";
 import { endTable, tableStart } from "./globalData/globalData";
-import { oldToc } from "./markdownFunctions/oldToc";
+import { shouldUpdateToc } from "./markdownFunctions/shouldUpdateToc";
 
 
 // Maybe use app.process instead of app.read and app.modify
@@ -37,13 +34,8 @@ export default class AutoTOC extends Plugin {
 				if (!checkTOC) {
 					return;
 				}
-				const fileName = file.basename;
-				const fileSplit = splitMarkdownUp(await this.app.vault.read(file));
-				let arrowTypeTOC = arrowType(fileSplit[2]);
-				const content = fileSplit[1] + fileSplit[3];
-				const toc = contentToTOC(fileName, content,arrowTypeTOC);
-				const oldTocMD = oldToc(await this.app.vault.cachedRead(file))
-				if (toc == oldTocMD){
+				const [updateToc,toc] = await shouldUpdateToc(file)
+				if(!updateToc){
 					return;
 				}
 				const Re = new RegExp(tableStart  + ".+" + endTable)
@@ -63,13 +55,8 @@ export default class AutoTOC extends Plugin {
 				if (!checkTOC) {
 					return;
 				}
-				const fileName = file.basename;
-				const fileSplit = splitMarkdownUp(await this.app.vault.read(file));
-				let arrowTypeTOC = arrowType(fileSplit[2]);
-				const content = fileSplit[1] + fileSplit[3];
-				const toc = contentToTOC(fileName, content,arrowTypeTOC);
-				const oldTocMD = oldToc(await this.app.vault.cachedRead(file))
-				if (toc == oldTocMD){
+				const [updateToc,toc] = await shouldUpdateToc(file)
+				if(!updateToc){
 					return;
 				}
 				const Re = new RegExp(tableStart  + ".+" + endTable)
