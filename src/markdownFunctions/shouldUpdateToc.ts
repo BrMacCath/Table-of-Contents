@@ -9,8 +9,8 @@ export async function shouldUpdateToc(file:TFile):Promise<[boolean,string]>{
     const fileSplit = splitMarkdownUp(await this.app.vault.read(file));
     let arrowTypeTOC = arrowType(fileSplit[2]);
     const content = fileSplit[1] + fileSplit[3];
-    const toc = contentToTOC(fileName, content,arrowTypeTOC);
-    const oldTocMD = oldToc(await this.app.vault.cachedRead(file));
-    const updateToc:boolean = toc == oldTocMD;
+    const toc = contentToTOC(fileName, content,arrowTypeTOC).trim();
+    const oldTocMD = oldToc(await this.app.vault.cachedRead(file)).trim();
+    const updateToc:boolean = !(toc === oldTocMD);
     return [updateToc,toc];
 }

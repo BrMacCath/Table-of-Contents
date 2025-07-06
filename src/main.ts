@@ -3,9 +3,8 @@ import { createToc } from "./markdownFunctions/createToc";
 import { checkToc } from "./markdownFunctions/checkTOC";
 import { endTable, tableStart } from "./globalData/globalData";
 import { shouldUpdateToc } from "./markdownFunctions/shouldUpdateToc";
+import {updateFileToc } from "./markdownFunctions/updateFileToc";
 
-
-// Maybe use app.process instead of app.read and app.modify
 
 export default class AutoTOC extends Plugin {
 	statusBarTextElement: HTMLSpanElement;
@@ -38,9 +37,9 @@ export default class AutoTOC extends Plugin {
 				if(!updateToc){
 					return;
 				}
-				const Re = new RegExp(tableStart  + ".+" + endTable)
+				const Re = new RegExp(tableStart  + ".*" + endTable)
 				this.app.vault.process(file, (fileContent) => {
-					return fileContent.replace(Re,toc);
+					return updateFileToc(fileContent,toc)
 				});
 				return;
 			})
@@ -59,9 +58,9 @@ export default class AutoTOC extends Plugin {
 				if(!updateToc){
 					return;
 				}
-				const Re = new RegExp(tableStart  + ".+" + endTable)
+				//const Re = new RegExp(tableStart  + ".+" + endTable)
 				this.app.vault.process(file, (fileContent) => {
-					return fileContent.replace(Re,toc);
+					return updateFileToc(fileContent,toc);
 				});
 				return;
 			})
