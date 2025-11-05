@@ -1,7 +1,7 @@
 import { tableStart,endComment,tocTitle,endTable } from "src/globalData/globalData";
 import { createSubheading } from "./createSubheading";
 
-export function contentToTOC(fileName: string, content: string, arrowType: string =""): string {
+export function contentToTOC(fileName: string, content: string, arrowType?: string): string {
     // Create TOC
     let table_of_contents =
         tableStart +endComment + "\n" + tocTitle;

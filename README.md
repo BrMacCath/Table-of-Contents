@@ -23,16 +23,18 @@ When the plugin is installed. press Ctrl + p to open the command window and then
 
 This project uses [semver](http://semver.org/).
 
-| version | Date       | Notes                    |
-| ------- | ---------- | ------------------------ |
-| `2.3.2` |2025-07-03| No longer modifies the table if nothing has changed|
-| `2.3.1` |2025-06-30| Fixed a bug that sometimes clipped words people are writing|
-| `2.3.0` | 2025-06-23 | No longer adds headings in callouts or quotes|
-| `2.2.0` | 2025-05-05 | TOC automatically updates |
-| `2.1.0` | 2024-12-22 | Added title to TOC       |
-| `2.0.0` | 2024-12-17 | Allows toc to be updated |
-| `1.1.0` | 2024-12-7  | First Release            |
-| `1.0.0` | 2024-12-5  | Sample Plugin            |
+| version | Date        | Notes                    |
+| ------- | ----------  | ------------------------ |
+| `2.3.4`| 2025-11-05| Added create TOC at cursor|
+|`2.3.3`  |             | Fixed a minor bug|
+| `2.3.2` |2025-07-03   | No longer modifies the table if nothing has changed|
+| `2.3.1` |2025-06-30   | Fixed a bug that sometimes clipped words people are writing|
+| `2.3.0` | 2025-06-23  | No longer adds headings in callouts or quotes|
+| `2.2.0` | 2025-05-05  | TOC automatically updates |
+| `2.1.0` | 2024-12-22  | Added title to TOC       |
+| `2.0.0` | 2024-12-17  | Allows toc to be updated |
+| `1.1.0` | 2024-12-7   | First Release            |
+| `1.0.0` | 2024-12-5   | Sample Plugin            |
 
 ## License
 

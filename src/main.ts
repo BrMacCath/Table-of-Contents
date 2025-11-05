@@ -1,9 +1,10 @@
-import {  Plugin } from "obsidian";
+import {   Editor, MarkdownFileInfo, Plugin } from "obsidian";
 import { createToc } from "./markdownFunctions/createToc";
 import { checkToc } from "./markdownFunctions/checkTOC";
 import { endTable, tableStart } from "./globalData/globalData";
 import { shouldUpdateToc } from "./markdownFunctions/shouldUpdateToc";
 import {updateFileToc } from "./markdownFunctions/updateFileToc";
+import { contentToTOC } from "./markdownFunctions/contentToToc";
 
 
 export default class AutoTOC extends Plugin {
@@ -23,6 +24,24 @@ export default class AutoTOC extends Plugin {
 				}
 			},
 		});
+		this.addCommand({
+			id: "create-table-of-contents-at-cursor",
+			name: "Create table of contents at cursor",
+			editorCallback: (editor:Editor,ctx:MarkdownFileInfo) =>{
+				//
+				const rawFileName = ctx.file?.name;
+				const periodIndex = rawFileName?.indexOf(".")
+				console.log(ctx.file?.name)
+				const cursorPosition = editor.getCursor()
+				if( rawFileName === undefined){
+					return;
+				}
+				const toc = contentToTOC(rawFileName?.slice(0,periodIndex),editor.getValue())
+				editor.replaceRange(toc,cursorPosition)
+			} ,
+			
+		});
+
 		this.registerEvent(
 			this.app.workspace.on("active-leaf-change", async () => {
 				const file = this.app.workspace.getActiveFile();
