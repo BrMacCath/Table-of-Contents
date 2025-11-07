@@ -19,7 +19,7 @@ export function contentToTOC(fileName: string, content: string,plugin:AutoTOCPlu
     if(arrowType == numberArrow){
         table_of_contents += createSubheadingIndex(fileName, 1, content) + "\n";
     }else{
-        table_of_contents += createSubheadingNonIndex(fileName, 1, content,arrowType)
+        table_of_contents += createSubheadingNonIndex(fileName, 1, content,arrowType) +"\n";
     }
     table_of_contents += endTable + "\n";
     return table_of_contents;
