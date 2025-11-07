@@ -21,8 +21,10 @@ When the plugin is installed. press Ctrl + p to open the command window and then
 
 <img src="/assets/example.gif" />
 
-You can create a table of contents at the cursor by using
+You can create a table of contents at the cursor by using the create table of contents at cursor command.
 
+
+<img src="/assets/create Table at cursor.gif" />
 
 # Road map
 
