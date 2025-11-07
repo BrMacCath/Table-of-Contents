@@ -1,7 +1,8 @@
-export function createSubheading(
+export function createSubheadingNonIndex(
     fileName: string,
     tabLength: number,
-    content: string
+    content: string,
+    arrowType:string
 ) {
     if (content == undefined) {
         return "";
@@ -24,15 +25,16 @@ export function createSubheading(
         if (headingTitle.slice(0, heading.length) == heading) {
             headingTitle = headingTitle.slice(heading.length);
         }
-        subheadingContent += `${tabIndent}${headingNum}. [[${fileName}${heading}${headingTitle}|${headingTitle}]]\n`;
+        subheadingContent += `${tabIndent}${arrowType} [[${fileName}${heading}${headingTitle}|${headingTitle}]]\n`;
         headingNum += 1;
         const subheading = heading.replace(" ", "#");
         const subheadingLocation = section.indexOf(subheading);
         if (subheadingLocation != -1) {
-            subheadingContent += createSubheading(
+            subheadingContent += createSubheadingNonIndex(
                 fileName,
                 tabLength + 1,
-                section.slice(subheadingLocation)
+                section.slice(subheadingLocation),
+                arrowType
             );
         }
     });

@@ -25,6 +25,7 @@ This project uses [semver](http://semver.org/).
 
 | version | Date        | Notes                    |
 | ------- | ----------  | ------------------------ |
+| `2.4.0`| 2025-11-07| New arrow types and added a setting tab|
 | `2.3.4`| 2025-11-05| Added create TOC at cursor|
 |`2.3.3`  |             | Fixed a minor bug|
 | `2.3.2` |2025-07-03   | No longer modifies the table if nothing has changed|
