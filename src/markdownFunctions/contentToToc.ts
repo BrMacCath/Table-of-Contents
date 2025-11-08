@@ -6,12 +6,13 @@ import { createSubheadingNonIndex } from "./createSubheadingNonIndex";
 export function contentToTOC(fileName: string, content: string,plugin:AutoTOCPlugin, arrowType?: string): string {
     // Create TOC
     const numberArrow = "Index";
-
+    const newLine = "\n";
+    const heading ="# "
     if(!arrowType){
         arrowType = plugin.settings.arrowType
     }
     let table_of_contents =
-        tableStart + "arrowType: "+ arrowType + " " +endComment + "\n" + tocTitle;
+        tableStart + "arrowType: "+ arrowType + " " +endComment + newLine + heading + plugin.settings.title + newLine;
     const tabCheck = content.indexOf("# ");
     if (tabCheck == -1) {
         return table_of_contents + endTable + "\n";

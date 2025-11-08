@@ -9,9 +9,11 @@ import { arrowTypeChoices } from "ArrowType/choices/arrowTypeChoices";
 
 interface TOCSetting{
 	arrowType:string;
+	title: string;
 }
 const DEFAULT_SETTINGS: TOCSetting = {
-	arrowType: arrowTypeChoices[0]
+	arrowType: arrowTypeChoices[0],
+	title: "Table of contents"
 }
 
 
@@ -36,11 +38,22 @@ class TOCTab extends PluginSettingTab{
                 await this.plugin.saveSettings();
             })
         })
+		new Setting(containerEl).setName("Choose the title for the table of contents")
+        .setDesc("How do you want the table of contents to start.")
+        .addTextArea((cb)=>{
+			cb.setValue(this.plugin.settings.title)
+			cb.onChange(async(value) =>{
+				this.plugin.settings.title = value;
+				await this.plugin.saveSettings();
+			})
+		} )
+            
+        }
 
 	}
 
 
-}
+
 
 export default class AutoTOCPlugin extends Plugin {
 	statusBarTextElement: HTMLSpanElement;
@@ -69,7 +82,6 @@ export default class AutoTOCPlugin extends Plugin {
 				//
 				const rawFileName = ctx.file?.name;
 				const periodIndex = rawFileName?.indexOf(".")
-				console.log(ctx.file?.name)
 				const cursorPosition = editor.getCursor()
 				if( rawFileName === undefined){
 					return;
