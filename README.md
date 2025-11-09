@@ -6,7 +6,7 @@
 
 # Set Up
 
-This plugin allows you to create a table of contents that automatically updates and allows different arrow types. The default arrow type is to number the entries in the table of contents. You can change it to bullet points with - or you can choose to have > as your arrow type. Below is how you change the default arrow types. 
+This plugin allows you to create a table of contents that automatically updates and allows different arrow types or titles. The default arrow type is to number the entries in the table of contents. You can change it to bullet points with - or you can choose to have > as your arrow type. Below is how you change the default arrow types. 
 
 <img src="/assets/Change default arrow.gif" />
 
@@ -14,6 +14,13 @@ Note that this will not change the arrow types of the table of contents you have
 
 <img src="/assets/Manual Arrow Change.gif" />
 
+Changing the default title has a similar approach. You can change the default table of contents in the setting folder.
+
+<img src="/assets/new default title.gif" />
+
+Note that you can still change individual titles on pages. The title on each page can be unique.
+
+<img src="/assets/Alter heading manually.gif" />
 
 # How to use
 
@@ -41,13 +48,15 @@ This project uses [semver](http://semver.org/).
 
 | version | Date        | Notes                    |
 | ------- | ----------  | ------------------------ |
-| `2.4.1` | 2025-11-07|Fixed a spacing issue with the new arrow types|
-| `2.4.0`| 2025-11-07| New arrow types and added a setting tab|
-| `2.3.4`| 2025-11-05| Added create TOC at cursor|
-|`2.3.3`  |             | Fixed a minor bug|
-| `2.3.2` |2025-07-03   | No longer modifies the table if nothing has changed|
-| `2.3.1` |2025-06-30   | Fixed a bug that sometimes clipped words people are writing|
-| `2.3.0` | 2025-06-23  | No longer adds headings in callouts or quotes|
+| `2.4.3` | 2025-11-09  | Allow manual changes of title |
+| `2.4.2` | 2025-11-08  | Can manually set title for TOC |
+| `2.4.1` | 2025-11-07  | Fixed a spacing issue with the new arrow types |
+| `2.4.0` | 2025-11-07  | New arrow types and added a setting tab |
+| `2.3.4` | 2025-11-05  | Added create TOC at cursor |
+| `2.3.3` |             | Fixed a minor bug |
+| `2.3.2` | 2025-07-03  | No longer modifies the table if nothing has changed |
+| `2.3.1` | 2025-06-30  | Fixed a bug that sometimes clipped words people are writing |
+| `2.3.0` | 2025-06-23  | No longer adds headings in callouts or quotes |
 | `2.2.0` | 2025-05-05  | TOC automatically updates |
 | `2.1.0` | 2024-12-22  | Added title to TOC       |
 | `2.0.0` | 2024-12-17  | Allows toc to be updated |
