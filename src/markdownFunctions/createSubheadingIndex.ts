@@ -8,6 +8,7 @@ export function createSubheadingIndex(
     }
     let subheadingContent = "";
     const heading = "#".repeat(tabLength) + " ";
+    const headingToc= "#".repeat(tabLength);
     const tabIndent = "\t".repeat(tabLength - 1);
     const splitText = "\n" + heading;
     const contentStartsWithHeading = content.trim()[0] =="#";
@@ -24,7 +25,7 @@ export function createSubheadingIndex(
         if (headingTitle.slice(0, heading.length) == heading) {
             headingTitle = headingTitle.slice(heading.length);
         }
-        subheadingContent += `${tabIndent}${headingNum}. [[${fileName}${heading}${headingTitle}|${headingTitle}]]\n`;
+        subheadingContent += `${tabIndent}${headingNum}. [[${fileName}${headingToc}${headingTitle}|${headingTitle}]]\n`;
         headingNum += 1;
         const subheading = heading.replace(" ", "#");
         const subheadingLocation = section.indexOf(subheading);
