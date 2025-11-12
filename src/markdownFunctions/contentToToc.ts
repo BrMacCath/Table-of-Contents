@@ -3,6 +3,7 @@ import { createSubheadingIndex } from "./createSubheadingIndex";
 import AutoTOCPlugin from "src/main";
 import { createSubheadingNonIndex } from "./createSubheadingNonIndex";
 import { removeCodeBlocks } from "./removeCodeBlocks";
+import { lineIsHeading } from "./lineIsHeading";
 
 export function contentToTOC(fileName: string, content: string,plugin:AutoTOCPlugin, arrowType?: string,title?:string,codeBlocks?:string): string {
     // Create TOC
@@ -28,17 +29,19 @@ export function contentToTOC(fileName: string, content: string,plugin:AutoTOCPlu
         + newLine  + heading + title + newLine;
     if(codeBlocks === hasCodeBlocks){
         content = removeCodeBlocks(content);
-
-
     }
     const tabCheck = content.indexOf("# ");
     if (tabCheck == -1) {
         return table_of_contents + endTable + "\n";
     }
+    const headings = content.split(newLine).filter((t) =>{
+        return lineIsHeading(t);
+    }).join("\n")
+    console.log(headings)
     if(arrowType == numberArrow){
-        table_of_contents += createSubheadingIndex(fileName, 1, content) + "\n";
+        table_of_contents += createSubheadingIndex(fileName, 1, headings) + "\n";
     }else{
-        table_of_contents += createSubheadingNonIndex(fileName, 1, content,arrowType) +"\n";
+        table_of_contents += createSubheadingNonIndex(fileName, headings,arrowType) +"\n";
     }
     table_of_contents += endTable + "\n";
     return table_of_contents;
