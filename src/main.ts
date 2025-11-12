@@ -78,8 +78,9 @@ export default class AutoTOCPlugin extends Plugin {
 			id: "create-table-of-contents-at-cursor",
 			name: "Create table of contents at cursor",
 			editorCallback: (editor:Editor,ctx:MarkdownFileInfo) =>{
-				//
+				// raw file name includes the extension
 				const rawFileName = ctx.file?.name;
+				// This tells us where the extension begins
 				const periodIndex = rawFileName?.indexOf(".")
 				const cursorPosition = editor.getCursor()
 				if( rawFileName === undefined){

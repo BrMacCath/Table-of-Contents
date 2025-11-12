@@ -1,4 +1,4 @@
-import { tableStart,endComment,tocTitle,endTable } from "src/globalData/globalData";
+import { tableStart,endComment,endTable } from "src/globalData/globalData";
 import { createSubheadingIndex } from "./createSubheadingIndex";
 import AutoTOCPlugin from "src/main";
 import { createSubheadingNonIndex } from "./createSubheadingNonIndex";
@@ -37,9 +37,8 @@ export function contentToTOC(fileName: string, content: string,plugin:AutoTOCPlu
     const headings = content.split(newLine).filter((t) =>{
         return lineIsHeading(t);
     }).join("\n")
-    console.log(headings)
     if(arrowType == numberArrow){
-        table_of_contents += createSubheadingIndex(fileName, 1, headings) + "\n";
+        table_of_contents += createSubheadingIndex(fileName, headings) + "\n";
     }else{
         table_of_contents += createSubheadingNonIndex(fileName, headings,arrowType) +"\n";
     }

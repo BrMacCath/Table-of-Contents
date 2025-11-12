@@ -48,6 +48,7 @@ This project uses [semver](http://semver.org/).
 
 | version | Date        | Notes                    |
 | ------- | ----------  | ------------------------ |
+| `2.5.0` | 2025-11-12  | Allows altered indents in the table of contents  |
 | `2.4.4 `| 2025-11-12  | Can remove codeBlocks from toc |
 | `2.4.3` | 2025-11-09  | Allow manual changes of title |
 | `2.4.2` | 2025-11-08  | Can manually set title for TOC |

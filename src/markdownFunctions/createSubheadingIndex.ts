@@ -1,41 +1,33 @@
 export function createSubheadingIndex(
     fileName: string,
-    tabLength: number,
     content: string
 ) {
     if (content == undefined) {
         return "";
     }
     let subheadingContent = "";
-    const heading = "#".repeat(tabLength) + " ";
-    const headingToc= "#".repeat(tabLength);
-    const tabIndent = "\t".repeat(tabLength - 1);
-    const splitText = "\n" + heading;
-    const contentStartsWithHeading = content.trim()[0] =="#";
-    let headings = content.trim().split(splitText).filter((t) => t.trim() != "");
-    // If the content does not start with a heading it should not be counted.
-    if(!contentStartsWithHeading){
-        headings = headings.slice(1);
-    }
-    let headingNum = 1;
-    headings.forEach((section) => {
-        const lineCheck = section.indexOf("\n");
-        const lineSplit = lineCheck == -1 ? section.length : lineCheck;
-        let headingTitle = section.slice(0, lineSplit);
-        if (headingTitle.slice(0, heading.length) == heading) {
-            headingTitle = headingTitle.slice(heading.length);
+    
+    
+    let maxDepth = 0;
+    let tempContent:[number,string][] =[]
+    content.split("\n").forEach((line) =>{
+        const spaceIndex = line.indexOf(" ");
+        if(spaceIndex>maxDepth){maxDepth = spaceIndex}
+       tempContent.push([spaceIndex,line.slice(spaceIndex).trim()])
+    } )
+    let indexNumArray = new Array(maxDepth).fill(0);
+
+    tempContent.forEach((headingContent)=>{
+        const headingDepth= headingContent[0];
+        const headingTitle = headingContent[1];
+        const headingSignifier = "#".repeat(headingDepth);
+        const tabIndent = "\t".repeat(headingDepth-1);
+        const headingNum = indexNumArray[headingDepth-1]+1;
+        indexNumArray[headingDepth-1] += 1;
+        for(let i=headingDepth;i<maxDepth;i++){
+            indexNumArray[i] = 0;
         }
-        subheadingContent += `${tabIndent}${headingNum}. [[${fileName}${headingToc}${headingTitle}|${headingTitle}]]\n`;
-        headingNum += 1;
-        const subheading = heading.replace(" ", "#");
-        const subheadingLocation = section.indexOf(subheading);
-        if (subheadingLocation != -1) {
-            subheadingContent += createSubheadingIndex(
-                fileName,
-                tabLength + 1,
-                section.slice(subheadingLocation)
-            );
-        }
-    });
+        subheadingContent += `${tabIndent}${headingNum}. [[${fileName}${headingSignifier}${headingTitle}|${headingTitle}]]\n`;
+    } )
     return subheadingContent;
 }
