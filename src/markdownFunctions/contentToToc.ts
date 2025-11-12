@@ -26,19 +26,11 @@ export function contentToTOC(fileName: string, content: string,plugin:AutoTOCPlu
         + "title: "+ title+ " "+propertySeparator 
         + "codeBlocks: "+ codeBlocks+ " " +endComment
         + newLine  + heading + title + newLine;
-    console.log(content)
     if(codeBlocks === hasCodeBlocks){
         content = removeCodeBlocks(content);
-        console.log("Inside codeBlock check")
-        console.log(content)
-        console.log("Effect of remove code blocks")
-        console.log(removeCodeBlocks(content))
-        console.log(removeCodeBlocks("``` test\n\n Here``` fsjk"))
-        let test = content
-        console.log(removeCodeBlocks(test))
+
+
     }
-    console.log("Outside codeblock")
-    console.log(content)
     const tabCheck = content.indexOf("# ");
     if (tabCheck == -1) {
         return table_of_contents + endTable + "\n";
