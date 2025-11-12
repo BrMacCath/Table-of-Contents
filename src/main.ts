@@ -1,21 +1,12 @@
-import {   App, Editor, MarkdownFileInfo, Plugin, PluginSettingTab, Setting } from "obsidian";
+import { App, Editor, MarkdownFileInfo, Plugin, PluginSettingTab, Setting } from "obsidian";
 import { createToc } from "./markdownFunctions/createToc";
 import { checkToc } from "./markdownFunctions/checkTOC";
-import { endTable, tableStart, tocTitle } from "./globalData/globalData";
+import { endTable, tableStart } from "./globalData/globalData";
 import { shouldUpdateToc } from "./markdownFunctions/shouldUpdateToc";
 import {updateFileToc } from "./markdownFunctions/updateFileToc";
 import { contentToTOC } from "./markdownFunctions/contentToToc";
 import { arrowTypeChoices } from "ArrowType/choices/arrowTypeChoices";
-
-interface TOCSetting{
-	arrowType:string;
-	title: string;
-}
-const DEFAULT_SETTINGS: TOCSetting = {
-	arrowType: arrowTypeChoices[0],
-	title: "Table of contents"
-}
-
+import { DEFAULT_SETTINGS, TOCSettings } from "./tocSettings";
 
 class TOCTab extends PluginSettingTab{
 	plugin: AutoTOCPlugin
@@ -47,17 +38,25 @@ class TOCTab extends PluginSettingTab{
 				await this.plugin.saveSettings();
 			})
 		} )
-            
+        new Setting(containerEl).setName("Does your page contain code blocks")
+        .setDesc("The plugin needs to know to avoid the comments in these code blocks.")
+        .addDropdown((db)=>{
+			db.addOption("y","y");
+			db.addOption("n","n");
+			db.setValue(this.plugin.settings.codeBlocks)
+			db.onChange(async(value)=>{
+				this.plugin.settings.codeBlocks = value;
+				await this.plugin.saveSettings();
+			})
+		})
         }
-
+		
 	}
-
-
 
 
 export default class AutoTOCPlugin extends Plugin {
 	statusBarTextElement: HTMLSpanElement;
-	settings:TOCSetting;
+	settings:TOCSettings;
 
 	async onload(): Promise<void> {
 		await this.loadSettings()
@@ -91,6 +90,7 @@ export default class AutoTOCPlugin extends Plugin {
 			} ,
 			
 		});
+		
 
 		this.registerEvent(
 			this.app.workspace.on("active-leaf-change", async () => {
