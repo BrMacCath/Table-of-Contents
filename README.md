@@ -6,6 +6,8 @@
 
 # Set Up
 
+> I will update this readme shortly but there were a few features added that have changed the plugin significantly. I have to redo the old gifs and restructure the layout of this readme.
+
 This plugin allows you to create a table of contents that automatically updates and allows different arrow types or titles. The default arrow type is to number the entries in the table of contents. You can change it to bullet points with - or you can choose to have > as your arrow type. Below is how you change the default arrow types. 
 
 <img src="/assets/Change default arrow.gif" />
