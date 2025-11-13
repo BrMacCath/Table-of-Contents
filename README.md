@@ -4,6 +4,19 @@
 
 > Table of contents plugin that will be compatible with Publish.
 
+
+# How to use
+
+When the plugin is installed. press Ctrl + p to open the command window and then type create table of contents. For now this will create a table of contents for a file at the top of the file.
+
+<img src="/assets/example.gif" />
+
+You can create a table of contents at the cursor by using the create table of contents at cursor command.
+
+
+<img src="/assets/create Table at cursor.gif" />
+
+
 # Set Up
 
 > I will update this readme shortly but there were a few features added that have changed the plugin significantly. I have to redo the old gifs and restructure the layout of this readme.
@@ -35,23 +48,46 @@ Note that you can still change individual titles on pages. The title on each pag
 
 ## Code Blocks
 
-Mention that some code blocks have # that would be misinterpreted as headings. Just let the plugin know. Note that this will be a little slower but unless your notes are large, this will not be an issue.
+Some code blocks can be include comments that could be taken as a heading. For instance, in python comments are indicated with a #. To remove this line from our list on the table of contents, change the code blocks property to y to remove them from the table of contents. 
+
+Gif showing this.
+
+Note that this action is pointless if you don't have codeblocks in your notes. The default setting on these notes is n for no. If you regularly use code blocks in your notes, you should probably set the default to yes.
+
+Git showing this.
 
 ## Character Removal from titles
 
-If you wish to have text effect in titles but not have those characters show up in the table of contents, put them into the list of characters to remove from the title. Example below.
+If you wish to have text effect in titles but not have those characters show up in the table of contents, put them into the list of characters to remove from the title. Lets start with an example.
+
+One instance is if you wish to italicise a word in a title. We do this using two astericks on either side of the words we want to see in italics.
+
+Git of me doing this
+
+The italics will show up in the table of contents.
+
+PNG of this.
+
+To remove this, put pairs of italics in tge list of removed characters.
+
+Gif of me doing this.
+
+Then the table of contents  will no longer show those characters.
+
+Gif of this occuring.
 
 
-# How to use
+## Indentation
 
-When the plugin is installed. press Ctrl + p to open the command window and then type create table of contents. For now this will create a table of contents for a file at the top of the file.
+### Indentation starts with the shortest headings
 
-<img src="/assets/example.gif" />
-
-You can create a table of contents at the cursor by using the create table of contents at cursor command.
+Indentation will start with the level you choose to start with.
 
 
-<img src="/assets/create Table at cursor.gif" />
+### Indentation levels are accounted for
+
+Accounts for depths you introduce. 
+
 
 # Road map
 
