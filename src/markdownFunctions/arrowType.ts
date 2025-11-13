@@ -8,7 +8,7 @@ export function arrowType(tocHeading:string,plugin:AutoTOCPlugin):string{
     const endCommentIndex = tocHeading.indexOf(endComment);
     if(endCommentIndex==-1){
         new Notice("The end comment the start of the table of contents was missing. Using default setting arrow.")
-        return plugin.settings.arrowType;
+        return plugin.settings.tocSettings.arrowType;
     }
     let styleText = tocHeading.slice(tableStart.length, endCommentIndex).trim();
     const valueSeparator = styleText.indexOf(":")+1;
@@ -17,6 +17,6 @@ export function arrowType(tocHeading:string,plugin:AutoTOCPlugin):string{
         return arrowType;
     }
     new Notice("The arrow type you entered was not recognised. Using default setting arrow.")
-    return plugin.settings.arrowType;
+    return plugin.settings.tocSettings.arrowType;
 
 }

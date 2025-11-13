@@ -1,14 +1,16 @@
+import { removeListOfCharactersFromString } from "./removeListOfCharactersFromString";
+
 export function createSubheadingIndex(
     fileName: string,
-    content: string
+    content: string,
+    removeCharList: string[]
 ) {
     if (content == undefined) {
         return "";
     }
     let subheadingContent = "";
-    
-    
     let maxDepth = 0;
+    
     // minDepth is to push the table of contents back a bit
     // if we don't have any # headings but if every heading
     // has multiple hashtags.
@@ -33,7 +35,7 @@ export function createSubheadingIndex(
         for(let i=headingDepth;i<maxDepth;i++){
             indexNumArray[i] = 0;
         }
-        subheadingContent += `${tabIndent}${headingNum}. [[${fileName}${headingSignifier}${headingTitle}|${headingTitle}]]\n`;
+        subheadingContent += `${tabIndent}${headingNum}. [[${fileName}${headingSignifier}${headingTitle}|${removeListOfCharactersFromString(headingTitle,removeCharList)}]]\n`;
     } )
     return subheadingContent;
 }

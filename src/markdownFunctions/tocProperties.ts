@@ -3,14 +3,14 @@ import { arrowTypeChoices } from "ArrowType/choices/arrowTypeChoices";
 import { Notice } from "obsidian";
 import { tableStart, endComment } from "src/globalData/globalData";
 import AutoTOCPlugin from "src/main";
-import { DEFAULT_SETTINGS, TOCSettings } from "src/tocSettings";
+import { DEFAULT_INLINE_TOCSETTINGS, TOCSettings } from "src/tocSettings";
 
 export function tocProperties(tocHeading:string,plugin:AutoTOCPlugin):TOCSettings{
     const propertySeparator = " | "
     const endCommentIndex = tocHeading.indexOf(endComment);
     if(endCommentIndex==-1){
         new Notice("The end comment the start of the table of contents was missing. Using default settings.")
-        return plugin.settings;
+        return plugin.settings.tocSettings;
     }
     let styleText = tocHeading.slice(tableStart.length, endCommentIndex).trim();
     const tocProperties = styleText.split(propertySeparator).flatMap((text)=>{
@@ -18,9 +18,9 @@ export function tocProperties(tocHeading:string,plugin:AutoTOCPlugin):TOCSetting
         const value = text.slice(valueSeparator).trim();
         return value
     })
-    if(tocProperties.length < Object.keys(DEFAULT_SETTINGS).length){
+    if(tocProperties.length < Object.keys(DEFAULT_INLINE_TOCSETTINGS).length){
         new Notice("Your toc was missing a property. Using default properties")
-        return plugin.settings
+        return plugin.settings.tocSettings
     }
     const title = tocProperties[1]
     const codeBlocks = tocProperties[2]
@@ -32,7 +32,7 @@ export function tocProperties(tocHeading:string,plugin:AutoTOCPlugin):TOCSetting
     }
     
     new Notice("The arrow type you entered was not recognised. Using default setting arrow.")
-    const arrowType = plugin.settings.arrowType;
+    const arrowType = plugin.settings.tocSettings.arrowType;
     const tocSettings:TOCSettings ={arrowType:arrowType, title:title,codeBlocks:codeBlocks }
     return tocSettings;
 

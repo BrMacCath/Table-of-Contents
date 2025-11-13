@@ -13,13 +13,13 @@ export function contentToTOC(fileName: string, content: string,plugin:AutoTOCPlu
     const propertySeparator = " | ";
     const hasCodeBlocks = "y";
     if(!arrowType){
-        arrowType = plugin.settings.arrowType
+        arrowType = plugin.settings.tocSettings.arrowType
     }
     if(!title){
-        title = plugin.settings.title
+        title = plugin.settings.tocSettings.title
     }
     if(!codeBlocks){
-        codeBlocks = plugin.settings.codeBlocks
+        codeBlocks = plugin.settings.tocSettings.codeBlocks
     }
 
     let table_of_contents =
@@ -38,9 +38,9 @@ export function contentToTOC(fileName: string, content: string,plugin:AutoTOCPlu
         return lineIsHeading(t);
     }).join("\n")
     if(arrowType == numberArrow){
-        table_of_contents += createSubheadingIndex(fileName, headings) + "\n";
+        table_of_contents += createSubheadingIndex(fileName, headings,plugin.settings.removeCharactersFromTitles) + "\n";
     }else{
-        table_of_contents += createSubheadingNonIndex(fileName, headings,arrowType) +"\n";
+        table_of_contents += createSubheadingNonIndex(fileName, headings,arrowType,plugin.settings.removeCharactersFromTitles) +"\n";
     }
     table_of_contents += endTable + "\n";
     return table_of_contents;

@@ -6,7 +6,7 @@ export interface TOCSettings{
 	codeBlocks: string;
 }
 
-export const DEFAULT_SETTINGS: TOCSettings = {
+export const DEFAULT_INLINE_TOCSETTINGS: TOCSettings = {
     arrowType: arrowTypeChoices[0],
     title: "Table of contents",
     codeBlocks: "n"

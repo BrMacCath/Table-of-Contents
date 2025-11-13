@@ -6,7 +6,8 @@ import { shouldUpdateToc } from "./markdownFunctions/shouldUpdateToc";
 import {updateFileToc } from "./markdownFunctions/updateFileToc";
 import { contentToTOC } from "./markdownFunctions/contentToToc";
 import { arrowTypeChoices } from "ArrowType/choices/arrowTypeChoices";
-import { DEFAULT_SETTINGS, TOCSettings } from "./tocSettings";
+import { DEFAULT_SETTINGS, totalTOCSettings } from "./totalTocSettings";
+import { RemoveCharactersFromTitles } from "./modal/RemoveCharactersModal";
 
 class TOCTab extends PluginSettingTab{
 	plugin: AutoTOCPlugin
@@ -23,18 +24,18 @@ class TOCTab extends PluginSettingTab{
             for (let i=0; i< arrowTypeChoices.length;i++){
                 dropdown.addOption(arrowTypeChoices[i],arrowTypeChoices[i])
             }
-            dropdown.setValue(this.plugin.settings.arrowType);
+            dropdown.setValue(this.plugin.settings.tocSettings.arrowType);
             dropdown.onChange(async (value) =>{
-                this.plugin.settings.arrowType = value;
+                this.plugin.settings.tocSettings.arrowType = value;
                 await this.plugin.saveSettings();
             })
         })
 		new Setting(containerEl).setName("Choose the title for the table of contents")
         .setDesc("How do you want the table of contents to start.")
         .addTextArea((cb)=>{
-			cb.setValue(this.plugin.settings.title)
+			cb.setValue(this.plugin.settings.tocSettings.title)
 			cb.onChange(async(value) =>{
-				this.plugin.settings.title = value;
+				this.plugin.settings.tocSettings.title = value;
 				await this.plugin.saveSettings();
 			})
 		} )
@@ -43,20 +44,28 @@ class TOCTab extends PluginSettingTab{
         .addDropdown((db)=>{
 			db.addOption("y","y");
 			db.addOption("n","n");
-			db.setValue(this.plugin.settings.codeBlocks)
+			db.setValue(this.plugin.settings.tocSettings.codeBlocks)
 			db.onChange(async(value)=>{
-				this.plugin.settings.codeBlocks = value;
+				this.plugin.settings.tocSettings.codeBlocks = value;
 				await this.plugin.saveSettings();
 			})
 		})
+		new Setting(containerEl).setName("Add New characters to remove from titles.")
+		.addButton((btn)=>{
+			btn.setButtonText("Open modal to organise this.");
+			btn.onClick(()=>{
+				new RemoveCharactersFromTitles(this.app,this.plugin).open()
+			})
+		})
         }
+		
 		
 	}
 
 
 export default class AutoTOCPlugin extends Plugin {
 	statusBarTextElement: HTMLSpanElement;
-	settings:TOCSettings;
+	settings:totalTOCSettings;
 
 	async onload(): Promise<void> {
 		await this.loadSettings()

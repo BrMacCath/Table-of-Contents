@@ -7,10 +7,10 @@ export function createToc(fileContent: string, fileName: string,plugin:AutoTOCPl
     const frontmatter = fileSplit[0];
     const preTOC = fileSplit[1];
     if(!arrowTypeTOC){
-        arrowTypeTOC = plugin.settings.arrowType;
+        arrowTypeTOC = plugin.settings.tocSettings.arrowType;
     }
     if(!title){
-        title = plugin.settings.title;
+        title = plugin.settings.tocSettings.title;
     }
     const postTOC = fileSplit[3];
     const content = preTOC + postTOC;
