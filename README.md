@@ -11,9 +11,9 @@
 ## Arrow labels
 
 Current arrow Choices:
-- Index
-- >
-- -
+- Numbers: Index
+- Arrows: >
+- Bullet Points: -
 
 This plugin allows you to create a table of contents that automatically updates and allows different arrow types or titles. The default arrow type is to number the entries in the table of contents. You can change it to bullet points with - or you can choose to have > as your arrow type. Below is how you change the default arrow types. 
 
