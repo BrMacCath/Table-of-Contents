@@ -8,6 +8,13 @@
 
 > I will update this readme shortly but there were a few features added that have changed the plugin significantly. I have to redo the old gifs and restructure the layout of this readme.
 
+## Arrow labels
+
+Current arrow Choices:
+- Index
+- >
+- -
+
 This plugin allows you to create a table of contents that automatically updates and allows different arrow types or titles. The default arrow type is to number the entries in the table of contents. You can change it to bullet points with - or you can choose to have > as your arrow type. Below is how you change the default arrow types. 
 
 <img src="/assets/Change default arrow.gif" />
@@ -16,6 +23,8 @@ Note that this will not change the arrow types of the table of contents you have
 
 <img src="/assets/Manual Arrow Change.gif" />
 
+## Title Change
+
 Changing the default title has a similar approach. You can change the default table of contents in the setting folder.
 
 <img src="/assets/new default title.gif" />
@@ -23,6 +32,15 @@ Changing the default title has a similar approach. You can change the default ta
 Note that you can still change individual titles on pages. The title on each page can be unique.
 
 <img src="/assets/Alter heading manually.gif" />
+
+## Code Blocks
+
+Mention that some code blocks have # that would be misinterpreted as headings. Just let the plugin know. Note that this will be a little slower but unless your notes are large, this will not be an issue.
+
+## Character Removal from titles
+
+If you wish to have text effect in titles but not have those characters show up in the table of contents, put them into the list of characters to remove from the title. Example below.
+
 
 # How to use
 
