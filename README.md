@@ -48,6 +48,7 @@ This project uses [semver](http://semver.org/).
 
 | version | Date        | Notes                    |
 | ------- | ----------  | ------------------------ |
+| `3.0.1` | 2025-11-13  | Reduced unneccessary TOC checks |
 | `3.0.0` | 2025-11-13  | Can now create a list of characters that won't be displayed in the toc|
 | `2.5.1` | 2025-11-12  | If no headings start with #, push the table of contents back|
 | `2.5.0` | 2025-11-12  | Allows altered indents in the table of contents  |
