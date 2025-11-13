@@ -1,4 +1,4 @@
-import { App, Editor, MarkdownFileInfo, Plugin, PluginSettingTab, Setting } from "obsidian";
+import { App, Editor, MarkdownFileInfo, Notice, Plugin, PluginSettingTab, Setting } from "obsidian";
 import { createToc } from "./markdownFunctions/createToc";
 import { checkToc } from "./markdownFunctions/checkTOC";
 import { endTable, tableStart } from "./globalData/globalData";
@@ -8,6 +8,7 @@ import { contentToTOC } from "./markdownFunctions/contentToToc";
 import { arrowTypeChoices } from "ArrowType/choices/arrowTypeChoices";
 import { DEFAULT_SETTINGS, totalTOCSettings } from "./totalTocSettings";
 import { RemoveCharactersFromTitles } from "./modal/RemoveCharactersModal";
+import { headingUpdated } from "./markdownFunctions/headingUpdated";
 
 class TOCTab extends PluginSettingTab{
 	plugin: AutoTOCPlugin
@@ -100,43 +101,46 @@ export default class AutoTOCPlugin extends Plugin {
 			} ,
 			
 		});
-		
-
+		// Reset line order when we are on a new line.
 		this.registerEvent(
-			this.app.workspace.on("active-leaf-change", async () => {
-				const file = this.app.workspace.getActiveFile();
-				if (!file) {
-					return;
-				}
-				const checkTOC = await checkToc(file);
-				if (!checkTOC) {
-					return;
-				}
-				const [updateToc,toc] = await shouldUpdateToc(file,this)
-				if(!updateToc){
-					return;
-				}
-				const Re = new RegExp(tableStart  + ".*" + endTable)
-				this.app.vault.process(file, (fileContent) => {
-					return updateFileToc(fileContent,toc)
-				});
-				return;
+			this.app.workspace.on("file-open", async()=>{
+				// No line
+				this.settings.hiddenLineIndicator = -1;
+				await this.saveSettings()
 			})
-		);
+		)
+		
 		this.registerEvent(
-			this.app.workspace.on("editor-change", async () => {
+			this.app.workspace.on("editor-change", async (editor:Editor,info:MarkdownFileInfo) => {
 				const file = this.app.workspace.getActiveFile();
 				if (!file) {
 					return;
 				}
+				// Check if editor has changed.
+				
+				const currentLineIndex = editor.getCursor().line;
+				const currentLine = editor.getLine(currentLineIndex)
+				
+				const headingChanged = headingUpdated(currentLine)
+				const previousLineHadHeading = this.settings.hiddenLineIndicator !=-1;
+				if(!headingChanged ){ 
+					if(!previousLineHadHeading){return}
+					
+					this.settings.hiddenLineIndicator = -1;
+					await this.saveSettings()
+				}
+				// This is saying a heading changed
+				this.settings.hiddenLineIndicator = currentLineIndex;
+				await this.saveSettings()
+
+
+
 				const checkTOC = await checkToc(file);
-				if (!checkTOC) {
-					return;
-				}
+				if (!checkTOC) {return;}
+				
+
 				const [updateToc,toc] = await shouldUpdateToc(file,this)
-				if(!updateToc){
-					return;
-				}
+				if(!updateToc){	return;}
 				//const Re = new RegExp(tableStart  + ".+" + endTable)
 				this.app.vault.process(file, (fileContent) => {
 					return updateFileToc(fileContent,toc);
