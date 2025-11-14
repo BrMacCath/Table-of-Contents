@@ -30,27 +30,27 @@ Current arrow Choices:
 
 This plugin allows you to create a table of contents that automatically updates and allows different arrow types or titles. The default arrow type is to number the entries in the table of contents. You can change it to bullet points with - or you can choose to have > as your arrow type. Below is how you change the default arrow types. 
 
-<img src="/assets/Change default arrow.gif" />
+change arrow settings. Need to edit video in blender first.
 
 Note that this will not change the arrow types of the table of contents you have already made. You can change those manually as in the Table of contents header comment, there is the arrow type option. You can manually change that to the list type that you want.
 
-<img src="/assets/Manual Arrow Change.gif" />
+<img src="/assets/manual arrow change.gif" />
 
 ## Title Change
 
 Changing the default title has a similar approach. You can change the default table of contents in the setting folder.
 
-<img src="/assets/new default title.gif" />
+<img src="/assets/change title from settings.gif" />
 
 Note that you can still change individual titles on pages. The title on each page can be unique.
 
-<img src="/assets/Alter heading manually.gif" />
+<img src="/assets/change title manually.gif" />
 
 ## Code Blocks
 
 Some code blocks can be include comments that could be taken as a heading. For instance, in python comments are indicated with a #. To remove this line from our list on the table of contents, change the code blocks property to y to remove them from the table of contents. 
 
-Gif showing this.
+<img src="/assets/Show effect of codeblocks.gif" />
 
 Note that this action is pointless if you don't have codeblocks in your notes. The default setting on these notes is n for no. If you regularly use code blocks in your notes, you should probably set the default to yes.
 
@@ -60,21 +60,13 @@ Git showing this.
 
 If you wish to have text effect in titles but not have those characters show up in the table of contents, put them into the list of characters to remove from the title. Lets start with an example.
 
-One instance is if you wish to italicise a word in a title. We do this using two astericks on either side of the words we want to see in italics.
+One instance is if you wish to italicise a word in a title. We do this using two astericks on either side of the words we want to see in italics.The italics will show up in the table of contents.
 
-Git of me doing this
+<img src="/assets/Show italics effect.gif" />
 
-The italics will show up in the table of contents.
+To remove this, put pairs of italics in the list of removed characters. Then the table of contents  will no longer show those characters. Note that * have a purpose in Regex expressions so escape characters are inserted to make sure you are removing the asteriks.
 
-PNG of this.
-
-To remove this, put pairs of italics in tge list of removed characters.
-
-Gif of me doing this.
-
-Then the table of contents  will no longer show those characters.
-
-Gif of this occuring.
+<img src="/assets/Remove astericks from title.gif />
 
 
 ## Indentation
