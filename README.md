@@ -19,7 +19,7 @@ You can create a table of contents at the cursor by using the create table of co
 
 # Set Up
 
-> I will update this readme shortly but there were a few features added that have changed the plugin significantly. I have to redo the old gifs and restructure the layout of this readme.
+You can adjust a some of the settings for your table of contents. Note that most settings do not adjust table of contents that have already been made. Those you will have to update manually. The one exception to this is the list of characters you want to remove from titles.
 
 ## Arrow labels
 
@@ -30,7 +30,7 @@ Current arrow Choices:
 
 This plugin allows you to create a table of contents that automatically updates and allows different arrow types or titles. The default arrow type is to number the entries in the table of contents. You can change it to bullet points with - or you can choose to have > as your arrow type. Below is how you change the default arrow types. 
 
-change arrow settings. Need to edit video in blender first.
+<img src="/assets/change arrow type settings.gif" />
 
 Note that this will not change the arrow types of the table of contents you have already made. You can change those manually as in the Table of contents header comment, there is the arrow type option. You can manually change that to the list type that you want.
 
@@ -54,7 +54,11 @@ Some code blocks can be include comments that could be taken as a heading. For i
 
 Note that this action is pointless if you don't have codeblocks in your notes. The default setting on these notes is n for no. If you regularly use code blocks in your notes, you should probably set the default to yes.
 
-Git showing this.
+<img src="/assets/Change code blocks to yes in settings.gif" />
+
+Note that this only effects future table of contents. You will have to manually alter tables that were already created.
+
+<img src="/assets/alter codeblocks manually to yes.gif" />
 
 ## Character Removal from titles
 
@@ -66,7 +70,7 @@ One instance is if you wish to italicise a word in a title. We do this using two
 
 To remove this, put pairs of italics in the list of removed characters. Then the table of contents  will no longer show those characters. Note that * have a purpose in Regex expressions so escape characters are inserted to make sure you are removing the asteriks.
 
-<img src="/assets/Remove astericks from title.gif />
+<img src="/assets/Remove astericks from title.gif" />
 
 
 ## Indentation
@@ -75,11 +79,13 @@ To remove this, put pairs of italics in the list of removed characters. Then the
 
 Indentation will start with the level you choose to start with.
 
+<img src="/assets/Shortest indent.gif" />
 
 ### Indentation levels are accounted for
 
 Accounts for depths you introduce. 
 
+<img src="/assets/Altering indents.gif" />
 
 # Road map
 
