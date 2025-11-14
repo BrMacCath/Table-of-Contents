@@ -99,7 +99,6 @@ export default class AutoTOCPlugin extends Plugin {
 				const toc = contentToTOC(rawFileName?.slice(0,periodIndex),editor.getValue(),this)
 				editor.replaceRange(toc,cursorPosition)
 			} ,
-			
 		});
 		// Reset line order when we are on a new line.
 		this.registerEvent(

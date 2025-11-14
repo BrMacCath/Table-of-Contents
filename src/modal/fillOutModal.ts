@@ -1,6 +1,7 @@
 import { Setting } from "obsidian";
 import { canAddToList } from "src/functions/canAddToList";
 import AutoTOCPlugin from "src/main";
+import { reformatStringForRegex } from "./reformatStringForRegex";
 
 export function fillOutModal(contentEl:HTMLElement,plugin:AutoTOCPlugin){
     contentEl.empty()
@@ -31,8 +32,10 @@ export function fillOutModal(contentEl:HTMLElement,plugin:AutoTOCPlugin){
     .addButton((btn)=>{
         btn.setButtonText("Add to list");
         btn.onClick(async()=>{
-            if(canAddToList(excludedCharacter,plugin.settings.removeCharactersFromTitles)){
-                plugin.settings.removeCharactersFromTitles.push(excludedCharacter)
+            const reformattedStr = reformatStringForRegex(excludedCharacter)
+            if(canAddToList(reformattedStr,plugin.settings.removeCharactersFromTitles)){
+                
+                plugin.settings.removeCharactersFromTitles.push(reformattedStr)
                 await plugin.saveSettings()
                 fillOutModal(contentEl,plugin)
             }

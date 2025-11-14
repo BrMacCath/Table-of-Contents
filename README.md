@@ -9,12 +9,12 @@
 
 When the plugin is installed. press Ctrl + p to open the command window and then type create table of contents. For now this will create a table of contents for a file at the top of the file.
 
-<img src="/assets/example.gif" />
+<img src="/assets/create table start.gif" />
 
 You can create a table of contents at the cursor by using the create table of contents at cursor command.
 
 
-<img src="/assets/create Table at cursor.gif" />
+<img src="/assets/table at cursor.gif" />
 
 
 # Set Up
@@ -104,6 +104,7 @@ This project uses [semver](http://semver.org/).
 
 | version | Date        | Notes                    |
 | ------- | ----------  | ------------------------ |
+| `3.0.2` | 2025-11-14  | Fixed regex expressions to allow matching asterisks  |
 | `3.0.1` | 2025-11-13  | Reduced unneccessary TOC checks |
 | `3.0.0` | 2025-11-13  | Can now create a list of characters that won't be displayed in the toc|
 | `2.5.1` | 2025-11-12  | If no headings start with #, push the table of contents back|
