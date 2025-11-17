@@ -102,6 +102,7 @@ This project uses [semver](http://semver.org/).
 
 | version | Date        | Notes                    |
 | ------- | ----------  | ------------------------ |
+| `3.0.3` | 2025-11-17  | Fixed regex expression to allow more escaped characters be matched |
 | `3.0.2` | 2025-11-14  | Fixed regex expressions to allow matching asterisks  |
 | `3.0.1` | 2025-11-13  | Reduced unneccessary TOC checks |
 | `3.0.0` | 2025-11-13  | Can now create a list of characters that won't be displayed in the toc|
