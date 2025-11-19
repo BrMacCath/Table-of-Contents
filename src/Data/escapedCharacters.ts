@@ -1,1 +1,1 @@
-export const escapedCharacters =["*","+","?"];
+export const escapedCharacters =["*","+","?",".", "^","$", "-", "(", ")", "[", "]"    , "{", "}", "\\" , "|"];
