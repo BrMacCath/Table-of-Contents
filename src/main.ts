@@ -100,6 +100,26 @@ export default class AutoTOCPlugin extends Plugin {
 				editor.replaceRange(toc,cursorPosition)
 			} ,
 		});
+		this.addCommand({
+			id: "Update-toc",
+			name: "Update table of contents",
+			callback: async () => {
+				const file = this.app.workspace.getActiveFile();
+
+				if(!file){
+					return;
+				}
+				const checkTOC = await checkToc(file);
+				if (!checkTOC) {return;}
+				const [updateToc,toc] = await shouldUpdateToc(file,this)
+				this.app.vault.process(file, (fileContent) => {
+					return updateFileToc(fileContent,toc);
+				});
+				return;
+
+				
+			},
+		});
 		// Reset line order when we are on a new line.
 		this.registerEvent(
 			this.app.workspace.on("file-open", async()=>{
@@ -147,6 +167,8 @@ export default class AutoTOCPlugin extends Plugin {
 				return;
 			})
 		);
+
+		
 	}
 	onunload() {
 
