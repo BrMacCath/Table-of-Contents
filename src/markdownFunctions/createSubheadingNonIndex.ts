@@ -1,5 +1,6 @@
 import { lineIsHeading } from "./lineIsHeading";
 import { removeListOfCharactersFromString } from "./removeListOfCharactersFromString";
+import { sanitizeHeadingText, sanitizeLinkTarget } from "./stripMarkdown";
 
 export function createSubheadingNonIndex(
     fileName: string,
@@ -24,7 +25,11 @@ export function createSubheadingNonIndex(
         const heading = line.slice(0,spaceIndex);
         const headingTitle = line.slice(spaceIndex).trim();
         const tabIndent = "\t".repeat(spaceIndex-minDepth);
-        subheadingContent += `${tabIndent}${arrowType} [[${fileName}${heading}${headingTitle}|${removeListOfCharactersFromString(headingTitle,removeCharList)}]]\n`;
+        
+        const linkTarget = sanitizeLinkTarget(headingTitle);
+        const displayText = sanitizeHeadingText(removeListOfCharactersFromString(headingTitle, removeCharList));
+        
+        subheadingContent += `${tabIndent}${arrowType} [[${heading}${linkTarget}|${displayText}]]\n`;
     })
     return subheadingContent;
 }
