@@ -1,4 +1,5 @@
 import { removeListOfCharactersFromString } from "./removeListOfCharactersFromString";
+import { sanitizeHeadingText, sanitizeLinkTarget } from "./stripMarkdown";
 
 export function createSubheadingIndex(
     fileName: string,
@@ -35,7 +36,11 @@ export function createSubheadingIndex(
         for(let i=headingDepth;i<maxDepth;i++){
             indexNumArray[i] = 0;
         }
-        subheadingContent += `${tabIndent}${headingNum}. [[${fileName}${headingSignifier}${headingTitle}|${removeListOfCharactersFromString(headingTitle,removeCharList)}]]\n`;
+        
+        const linkTarget = sanitizeLinkTarget(headingTitle);
+        const displayText = sanitizeHeadingText(removeListOfCharactersFromString(headingTitle, removeCharList));
+        
+        subheadingContent += `${tabIndent}${headingNum}. [[${headingSignifier}${linkTarget}|${displayText}]]\n`;
     } )
     return subheadingContent;
 }
