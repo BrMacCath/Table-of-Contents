@@ -1,7 +1,6 @@
 import { App, Editor, MarkdownFileInfo, Notice, Plugin, PluginSettingTab, Setting } from "obsidian";
 import { createToc } from "./markdownFunctions/createToc";
 import { checkToc } from "./markdownFunctions/checkTOC";
-import { endTable, tableStart } from "./globalData/globalData";
 import { shouldUpdateToc } from "./markdownFunctions/shouldUpdateToc";
 import {updateFileToc } from "./markdownFunctions/updateFileToc";
 import { contentToTOC } from "./markdownFunctions/contentToToc";
@@ -51,7 +50,50 @@ class TOCTab extends PluginSettingTab{
 				await this.plugin.saveSettings();
 			})
 		})
+		new Setting(containerEl).setName("Adjust title display in table of contents").setHeading()
+
+		new Setting(containerEl).setName("Remove text styling from titles in TOC.")
+		.setDesc("Will remove bold fonts and strikethroughs in table of contents.")
+		.addToggle((cb)=>{
+			cb.setValue(this.plugin.settings.textStyling.removeTextStyling)
+			cb.onChange(async(value) =>{
+				this.plugin.settings.textStyling.removeTextStyling = value;
+				await this.plugin.saveSettings();
+			})
+		});
+
+
+		new Setting(containerEl).setName("Remove html from titles in TOC.")
+		.setDesc("Removes and html elements you have in titles.")
+		.addToggle((cb)=>{
+			cb.setValue(this.plugin.settings.textStyling.removeHtml)
+			cb.onChange(async(value) =>{
+				this.plugin.settings.textStyling.removeHtml = value;
+				await this.plugin.saveSettings();
+			})
+		});
+
+		new Setting(containerEl).setName("Remove wikilinks from titles in TOC.")
+		.setDesc("If you have links in titles, will remove the [[ and ]] in the table of contents.")
+		.addToggle((cb)=>{
+			cb.setValue(this.plugin.settings.textStyling.removeWikilinks)
+			cb.onChange(async(value) =>{
+				this.plugin.settings.textStyling.removeWikilinks = value;
+				await this.plugin.saveSettings();
+			})
+		})
+		new Setting(containerEl).setName("Remove footnotes from titles in TOC.")
+		.setDesc("Removes footnotes from title in table of contents.")
+		.addToggle((cb)=>{
+			cb.setValue(this.plugin.settings.textStyling.removeFootnotes)
+			cb.onChange(async(value) =>{
+				this.plugin.settings.textStyling.removeFootnotes = value;
+				await this.plugin.saveSettings();
+			})
+		});
+
 		new Setting(containerEl).setName("Add New characters to remove from titles.")
+		.setDesc("Individualise what you want in your TOC by removing what you don't want.")
 		.addButton((btn)=>{
 			btn.setButtonText("Open modal to organise this.");
 			btn.onClick(()=>{

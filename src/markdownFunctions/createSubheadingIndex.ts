@@ -1,10 +1,12 @@
 import { removeListOfCharactersFromString } from "./removeListOfCharactersFromString";
 import { sanitizeHeadingText, sanitizeLinkTarget } from "./stripMarkdown";
+import { textAdjustProperties } from "src/textRemovingPermissions";
 
 export function createSubheadingIndex(
     fileName: string,
     content: string,
-    removeCharList: string[]
+    removeCharList: string[],
+    textStyling: textAdjustProperties
 ) {
     if (content == undefined) {
         return "";
@@ -38,9 +40,9 @@ export function createSubheadingIndex(
         }
         
         const linkTarget = sanitizeLinkTarget(headingTitle);
-        const displayText = sanitizeHeadingText(removeListOfCharactersFromString(headingTitle, removeCharList));
+        const displayText = sanitizeHeadingText(removeListOfCharactersFromString(headingTitle, removeCharList),textStyling);
         
-        subheadingContent += `${tabIndent}${headingNum}. [[${headingSignifier}${linkTarget}|${displayText}]]\n`;
+        subheadingContent += `${tabIndent}${headingNum}. [[${fileName}${headingSignifier}${linkTarget}|${displayText}]]\n`;
     } )
     return subheadingContent;
 }

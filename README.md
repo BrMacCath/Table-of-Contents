@@ -16,7 +16,7 @@ You can create a table of contents at the cursor by using the create table of co
 
 <img src="/assets/table at cursor.gif" />
 
-
+This table will update after you update a title. It does not do it after every keystroke though. If you change a title and then add text to a new line it may update then. Note that if there is an issue with updating, there is a command to update the table called update the table of contents.
 # Set Up
 
 You can adjust a some of the settings for your table of contents. Note that most settings do not adjust table of contents that have already been made. Those you will have to update manually. The one exception to this is the list of characters you want to remove from titles.
@@ -95,13 +95,14 @@ Accounts for depths you introduce.
 -   [x] Create a feature that allows the app to recognise that there is a table of contents. This will allow the plugin to update the toc in a manner that will be recognised by obsidian publish.
 -   [x] Add a feature that will automatically update the table of contents.
 -   [x] Allow for different formats of table of contents.
-
+-   [x] Allow for titles with footnotes or links to be referenced. (credit to u/spud80)
 # Changelog
 
 This project uses [semver](http://semver.org/).
 
 | version | Date        | Notes                    |
 | ------- | ----------  | ------------------------ |
+| `3.2.0` | 2025-12  | Automatically removes text styling and footnotes from titles|
 | `3.1.0` | 2025-11-20  | Added a command to update toc |
 | `3.0.4` | 2025-11-19  | Extended escaped character list |
 | `3.0.3` | 2025-11-17  | Fixed regex expression to allow more escaped characters be matched |

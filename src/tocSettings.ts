@@ -4,11 +4,13 @@ export interface TOCSettings{
 	arrowType:string;
 	title: string;
 	codeBlocks: string;
+    
 }
 
 export const DEFAULT_INLINE_TOCSETTINGS: TOCSettings = {
     arrowType: arrowTypeChoices[0],
     title: "Table of contents",
-    codeBlocks: "n"
+    codeBlocks: "n",
+    
 }
 
