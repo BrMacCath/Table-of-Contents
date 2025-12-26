@@ -102,7 +102,7 @@ This project uses [semver](http://semver.org/).
 
 | version | Date        | Notes                    |
 | ------- | ----------  | ------------------------ |
-| `3.2.0` | 2025-12  | Automatically removes text styling and footnotes from titles|
+| `3.2.0` | 2025-12-26  | Automatically removes text styling and footnotes from titles|
 | `3.1.0` | 2025-11-20  | Added a command to update toc |
 | `3.0.4` | 2025-11-19  | Extended escaped character list |
 | `3.0.3` | 2025-11-17  | Fixed regex expression to allow more escaped characters be matched |
