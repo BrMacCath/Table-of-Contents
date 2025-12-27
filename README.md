@@ -60,6 +60,11 @@ Note that this only effects future table of contents. You will have to manually 
 
 <img src="/assets/alter codeblocks manually to yes.gif" />
 
+## Style Choices
+
+Create the gifs for 
+
+
 ## Character Removal from titles
 
 If you wish to have text effect in titles but not have those characters show up in the table of contents, put them into the list of characters to remove from the title. Lets start with an example.
