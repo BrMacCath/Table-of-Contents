@@ -22,7 +22,6 @@ export function createSubheadingNonIndex(
         const spaceIndex = t.indexOf(space)
         if (spaceIndex<minDepth){minDepth=spaceIndex}
     })
-    console.log(shorterHeadingLinks)
     tempcontent.forEach((line)=>{
         const spaceIndex = line.indexOf(space);
         let heading = "";
