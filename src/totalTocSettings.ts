@@ -9,6 +9,7 @@ export interface totalTOCSettings{
     textStyling: textAdjustProperties;
     includePreToc: boolean;
     autoUpdate: boolean;
+    shorterHeadingLinks: boolean;
 }
 
 export const DEFAULT_SETTINGS:totalTOCSettings={
@@ -18,4 +19,5 @@ export const DEFAULT_SETTINGS:totalTOCSettings={
     textStyling: defaultTextAdjustProperties,
     includePreToc: true,
     autoUpdate: true,
+    shorterHeadingLinks: false
 }

@@ -56,12 +56,22 @@ class TOCTab extends PluginSettingTab{
 		new Setting(containerEl).setName("Automatically update the table of contents.")
 		.setDesc("Automatically updates the table of contents. Toggle off to turn off. May need to reload the app for this to take effect.")
 		.addToggle((cb)=>{
-			cb.setValue(this.plugin.settings.includePreToc)
+			cb.setValue(this.plugin.settings.autoUpdate)
 			cb.onChange(async(value) =>{
-				this.plugin.settings.includePreToc = value;
+				this.plugin.settings.autoUpdate = value;
 				await this.plugin.saveSettings();
 			})
 		});
+		new Setting(containerEl).setName("Adjust subheading links.")
+		.setDesc("Toggle on to turn all subheadings to a single hashtag. ")
+		.addToggle((cb)=>{
+			cb.setValue(this.plugin.settings.shorterHeadingLinks)
+			cb.onChange(async(value) =>{
+				this.plugin.settings.shorterHeadingLinks = value;
+				await this.plugin.saveSettings();
+			})
+		});
+		
 
 		new Setting(containerEl).setName("Include content from before the table of contents.")
 		.setDesc("Will include the headings from before the table of contents. Toggle off to ignore these")

@@ -6,7 +6,8 @@ export function createSubheadingIndex(
     fileName: string,
     content: string,
     removeCharList: string[],
-    textStyling: textAdjustProperties
+    textStyling: textAdjustProperties,
+    shorterHeadingLinks: boolean
 ) {
     if (content == undefined) {
         return "";
@@ -19,19 +20,25 @@ export function createSubheadingIndex(
     // has multiple hashtags.
     let minDepth = content.indexOf(" ")
 
-    let tempContent:[number,string][] =[]
+    const tempContent:[number,string][] =[]
     content.split("\n").forEach((line) =>{
         const spaceIndex = line.indexOf(" ");
         if(spaceIndex>maxDepth){maxDepth = spaceIndex}
         if(spaceIndex<minDepth){minDepth = spaceIndex}
        tempContent.push([spaceIndex,line.slice(spaceIndex).trim()])
     } )
-    let indexNumArray = new Array(maxDepth).fill(0);
-
+    const indexNumArray = new Array(maxDepth).fill(0);
+    console.log(shorterHeadingLinks)
     tempContent.forEach((headingContent)=>{
         const headingDepth= headingContent[0];
         const headingTitle = headingContent[1];
-        const headingSignifier = "#".repeat(headingDepth);
+        let headingSignifier = "";
+        if( shorterHeadingLinks){
+            headingSignifier = "#"
+        }
+        else{
+            headingSignifier = "#".repeat(headingDepth);
+        } 
         const tabIndent = "\t".repeat(headingDepth-minDepth);
         const headingNum = indexNumArray[headingDepth-1]+1;
         indexNumArray[headingDepth-1] += 1;

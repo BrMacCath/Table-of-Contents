@@ -8,7 +8,8 @@ export function createSubheadingNonIndex(
     content: string,
     arrowType:string,
     removeCharList: string[],
-    textStyling: textAdjustProperties
+    textStyling: textAdjustProperties,
+    shorterHeadingLinks: boolean
 ) {
     if (content == undefined) {
         return "";
@@ -16,15 +17,21 @@ export function createSubheadingNonIndex(
     let subheadingContent = "";
     const space=" ";
     let minDepth = content.indexOf(space);
-    let tempcontent = content.split("\n").filter((t) =>{return lineIsHeading(t)})
+    const tempcontent = content.split("\n").filter((t) =>{return lineIsHeading(t)})
     tempcontent.forEach((t)=>{
         const spaceIndex = t.indexOf(space)
         if (spaceIndex<minDepth){minDepth=spaceIndex}
     })
-
+    console.log(shorterHeadingLinks)
     tempcontent.forEach((line)=>{
         const spaceIndex = line.indexOf(space);
-        const heading = line.slice(0,spaceIndex);
+        let heading = "";
+        if( shorterHeadingLinks){
+            heading = "#"
+        }
+        else{
+            heading = line.slice(0,spaceIndex);
+        }
         const headingTitle = line.slice(spaceIndex).trim();
         const tabIndent = "\t".repeat(spaceIndex-minDepth);
         

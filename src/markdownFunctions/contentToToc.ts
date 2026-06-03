@@ -38,9 +38,9 @@ export function contentToTOC(fileName: string, content: string,plugin:AutoTOCPlu
         return lineIsHeading(t);
     }).join("\n")
     if(arrowType == numberArrow){
-        table_of_contents += createSubheadingIndex(fileName, headings,plugin.settings.removeCharactersFromTitles,plugin.settings.textStyling) + "\n";
+        table_of_contents += createSubheadingIndex(fileName, headings,plugin.settings.removeCharactersFromTitles,plugin.settings.textStyling,plugin.settings.shorterHeadingLinks) + "\n";
     }else{
-        table_of_contents += createSubheadingNonIndex(fileName, headings,arrowType,plugin.settings.removeCharactersFromTitles,plugin.settings.textStyling) +"\n";
+        table_of_contents += createSubheadingNonIndex(fileName, headings,arrowType,plugin.settings.removeCharactersFromTitles,plugin.settings.textStyling,plugin.settings.shorterHeadingLinks) +"\n";
     }
     table_of_contents += endTable + "\n";
     return table_of_contents;
