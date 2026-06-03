@@ -1,4 +1,4 @@
-import { App, Editor, MarkdownFileInfo, Notice, Plugin, PluginSettingTab, Setting } from "obsidian";
+import { App, Editor, MarkdownFileInfo,  Plugin, PluginSettingTab, Setting } from "obsidian";
 import { createToc } from "./markdownFunctions/createToc";
 import { checkToc } from "./markdownFunctions/checkTOC";
 import { shouldUpdateToc } from "./markdownFunctions/shouldUpdateToc";
@@ -8,6 +8,7 @@ import { arrowTypeChoices } from "ArrowType/choices/arrowTypeChoices";
 import { DEFAULT_SETTINGS, totalTOCSettings } from "./totalTocSettings";
 import { RemoveCharactersFromTitles } from "./modal/RemoveCharactersModal";
 import { headingUpdated } from "./markdownFunctions/headingUpdated";
+import { newToc } from "./markdownFunctions/newToc";
 
 class TOCTab extends PluginSettingTab{
 	plugin: AutoTOCPlugin
@@ -153,7 +154,7 @@ export default class AutoTOCPlugin extends Plugin {
 				}
 				const checkTOC = await checkToc(file);
 				if (!checkTOC) {return;}
-				const [updateToc,toc] = await shouldUpdateToc(file,this)
+				const toc = await newToc(file,this)
 				this.app.vault.process(file, (fileContent) => {
 					return updateFileToc(fileContent,toc);
 				});
