@@ -62,7 +62,7 @@ Note that this only effects future table of contents. You will have to manually 
 
 ## Style Choices
 
-Create the gifs for 
+Create the gifs for altering choices.
 
 
 ## Character Removal from titles
@@ -107,6 +107,7 @@ This project uses [semver](http://semver.org/).
 
 | version | Date        | Notes                    |
 | ------- | ----------  | ------------------------ |
+| `3.2.1` | 2026-06-03  | Refactored some code to be more easy to adjust|
 | `3.2.0` | 2025-12-26  | Automatically removes text styling and footnotes from titles|
 | `3.1.0` | 2025-11-20  | Added a command to update toc |
 | `3.0.4` | 2025-11-19  | Extended escaped character list |
