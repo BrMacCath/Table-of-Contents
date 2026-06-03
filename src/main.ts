@@ -162,7 +162,7 @@ export default class AutoTOCPlugin extends Plugin {
 				if(!file){
 					return;
 				}
-				const checkTOC = await checkToc(file);
+				const checkTOC = await checkToc(file,this);
 				if (!checkTOC) {return;}
 				const toc = await newToc(file,this)
 				await this.app.vault.process(file, (fileContent) => {
