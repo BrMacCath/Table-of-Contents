@@ -53,6 +53,16 @@ class TOCTab extends PluginSettingTab{
 		})
 		new Setting(containerEl).setName("Adjust table of contents").setHeading()
 
+		new Setting(containerEl).setName("Automatically update the table of contents.")
+		.setDesc("Automatically updates the table of contents. Toggle off to turn off. May need to reload the app for this to take effect.")
+		.addToggle((cb)=>{
+			cb.setValue(this.plugin.settings.includePreToc)
+			cb.onChange(async(value) =>{
+				this.plugin.settings.includePreToc = value;
+				await this.plugin.saveSettings();
+			})
+		});
+
 		new Setting(containerEl).setName("Include content from before the table of contents.")
 		.setDesc("Will include the headings from before the table of contents. Toggle off to ignore these")
 		.addToggle((cb)=>{
@@ -181,46 +191,46 @@ export default class AutoTOCPlugin extends Plugin {
 				await this.saveSettings()
 			})
 		)
-		
-		this.registerEvent(
-			this.app.workspace.on("editor-change", async (editor:Editor) => {
-				const file = this.app.workspace.getActiveFile();
-				if (!file) {
-					return;
-				}
-				// Check if editor has changed.
-				
-				const currentLineIndex = editor.getCursor().line;
-				const currentLine = editor.getLine(currentLineIndex)
-				
-				const headingChanged = headingUpdated(currentLine)
-				const previousLineHadHeading = this.settings.hiddenLineIndicator !=-1;
-				if(!headingChanged ){ 
-					if(!previousLineHadHeading){return}
+		if(this.settings.autoUpdate){
+			this.registerEvent(
+				this.app.workspace.on("editor-change", async (editor:Editor) => {
+					const file = this.app.workspace.getActiveFile();
+					if (!file) {
+						return;
+					}
+					// Check if editor has changed.
 					
-					this.settings.hiddenLineIndicator = -1;
+					const currentLineIndex = editor.getCursor().line;
+					const currentLine = editor.getLine(currentLineIndex)
+					
+					const headingChanged = headingUpdated(currentLine)
+					const previousLineHadHeading = this.settings.hiddenLineIndicator !=-1;
+					if(!headingChanged ){ 
+						if(!previousLineHadHeading){return}
+						
+						this.settings.hiddenLineIndicator = -1;
+						await this.saveSettings()
+					}
+					// This is saying a heading changed
+					this.settings.hiddenLineIndicator = currentLineIndex;
 					await this.saveSettings()
-				}
-				// This is saying a heading changed
-				this.settings.hiddenLineIndicator = currentLineIndex;
-				await this.saveSettings()
 
 
 
-				const checkTOC = await checkToc(file);
-				if (!checkTOC) {return;}
-				
+					const checkTOC = await checkToc(file,this);
+					if (!checkTOC) {return;}
+					
 
-				const [updateToc,toc] = await shouldUpdateToc(file,this)
-				if(!updateToc){	return;}
-				//const Re = new RegExp(tableStart  + ".+" + endTable)
-				await this.app.vault.process(file, (fileContent) => {
-					return updateFileToc(fileContent,toc);
-				});
-				return;
-			})
-		);
-
+					const [updateToc,toc] = await shouldUpdateToc(file,this)
+					if(!updateToc){	return;}
+					//const Re = new RegExp(tableStart  + ".+" + endTable)
+					await this.app.vault.process(file, (fileContent) => {
+						return updateFileToc(fileContent,toc);
+					});
+					return;
+				})
+			);
+		}
 		
 	}
 	onunload() {

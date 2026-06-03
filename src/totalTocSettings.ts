@@ -8,6 +8,7 @@ export interface totalTOCSettings{
     hiddenLineIndicator:number;
     textStyling: textAdjustProperties;
     includePreToc: boolean;
+    autoUpdate: boolean;
 }
 
 export const DEFAULT_SETTINGS:totalTOCSettings={
@@ -15,5 +16,6 @@ export const DEFAULT_SETTINGS:totalTOCSettings={
     removeCharactersFromTitles:[],
     hiddenLineIndicator:-1,
     textStyling: defaultTextAdjustProperties,
-    includePreToc: true
+    includePreToc: true,
+    autoUpdate: true,
 }
