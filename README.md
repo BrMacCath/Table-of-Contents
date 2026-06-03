@@ -107,6 +107,9 @@ This project uses [semver](http://semver.org/).
 
 | version | Date        | Notes                    |
 | ------- | ----------  | ------------------------ |
+| `3.2.4` | 2026-06-03  | Can adjust how subheadings are linked to|
+| `3.2.3` | 2026-06-03  | Can turn off automatic updates|
+| `3.2.2` | 2026-06-03  | Can ignore code from before the table of contents|
 | `3.2.1` | 2026-06-03  | Refactored some code to be more easy to adjust|
 | `3.2.0` | 2025-12-26  | Automatically removes text styling and footnotes from titles|
 | `3.1.0` | 2025-11-20  | Added a command to update toc |
