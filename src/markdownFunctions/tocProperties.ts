@@ -12,7 +12,7 @@ export function tocProperties(tocHeading:string,plugin:AutoTOCPlugin):TOCSetting
         new Notice("The end comment the start of the table of contents was missing. Using default settings.")
         return plugin.settings.tocSettings;
     }
-    let styleText = tocHeading.slice(tableStart.length, endCommentIndex).trim();
+    const styleText = tocHeading.slice(tableStart.length, endCommentIndex).trim();
     const tocProperties = styleText.split(propertySeparator).flatMap((text)=>{
         const valueSeparator = text.indexOf(":")+1;
         const value = text.slice(valueSeparator).trim();
@@ -33,7 +33,7 @@ export function tocProperties(tocHeading:string,plugin:AutoTOCPlugin):TOCSetting
     
     new Notice("The arrow type you entered was not recognised. Using default setting arrow.")
     const arrowType = plugin.settings.tocSettings.arrowType;
-    const tocSettings:TOCSettings ={arrowType:arrowType, title:title,codeBlocks:codeBlocks }
+    const tocSettings:TOCSettings ={arrowType:arrowType, title:title,codeBlocks:codeBlocks}
     return tocSettings;
 
 }

@@ -11,6 +11,5 @@ export const DEFAULT_INLINE_TOCSETTINGS: TOCSettings = {
     arrowType: arrowTypeChoices[0],
     title: "Table of contents",
     codeBlocks: "n",
-    
 }
 

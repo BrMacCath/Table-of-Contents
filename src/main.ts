@@ -11,12 +11,12 @@ import { headingUpdated } from "./markdownFunctions/headingUpdated";
 import { newToc } from "./markdownFunctions/newToc";
 
 class TOCTab extends PluginSettingTab{
-	plugin: AutoTOCPlugin
+	plugin!: AutoTOCPlugin
 	constructor(app:App,plugin:AutoTOCPlugin){
 		super(app,plugin)
 	}
 	display(): void {
-		const {containerEl} = this;;
+		const {containerEl} = this;
 		containerEl.empty();
 		new Setting(containerEl).setName("Adjust table of contents conditions").setHeading()
 		new Setting(containerEl).setName("Choose list style")
@@ -51,7 +51,17 @@ class TOCTab extends PluginSettingTab{
 				await this.plugin.saveSettings();
 			})
 		})
-		new Setting(containerEl).setName("Adjust title display in table of contents").setHeading()
+		new Setting(containerEl).setName("Adjust table of contents").setHeading()
+
+		new Setting(containerEl).setName("Include content from before the table of contents.")
+		.setDesc("Will include the headings from before the table of contents. Toggle off to ignore these")
+		.addToggle((cb)=>{
+			cb.setValue(this.plugin.settings.includePreToc)
+			cb.onChange(async(value) =>{
+				this.plugin.settings.includePreToc = value;
+				await this.plugin.saveSettings();
+			})
+		});
 
 		new Setting(containerEl).setName("Remove text styling from titles in TOC.")
 		.setDesc("Will remove bold fonts and strikethroughs in table of contents.")
@@ -108,8 +118,8 @@ class TOCTab extends PluginSettingTab{
 
 
 export default class AutoTOCPlugin extends Plugin {
-	statusBarTextElement: HTMLSpanElement;
-	settings:totalTOCSettings;
+	statusBarTextElement!: HTMLSpanElement;
+	settings!:totalTOCSettings;
 
 	async onload(): Promise<void> {
 		await this.loadSettings()

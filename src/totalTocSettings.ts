@@ -7,11 +7,13 @@ export interface totalTOCSettings{
     removeCharactersFromTitles: string[];
     hiddenLineIndicator:number;
     textStyling: textAdjustProperties;
+    includePreToc: boolean;
 }
 
 export const DEFAULT_SETTINGS:totalTOCSettings={
     tocSettings:DEFAULT_INLINE_TOCSETTINGS,
     removeCharactersFromTitles:[],
     hiddenLineIndicator:-1,
-    textStyling: defaultTextAdjustProperties
+    textStyling: defaultTextAdjustProperties,
+    includePreToc: true
 }
