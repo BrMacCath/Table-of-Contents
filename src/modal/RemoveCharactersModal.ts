@@ -1,4 +1,4 @@
-import { App, Modal, Setting } from "obsidian";
+import { App, Modal } from "obsidian";
 import AutoTOCPlugin from "src/main";
 import { fillOutModal } from "./fillOutModal";
 

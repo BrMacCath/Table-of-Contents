@@ -173,7 +173,7 @@ export default class AutoTOCPlugin extends Plugin {
 		)
 		
 		this.registerEvent(
-			this.app.workspace.on("editor-change", async (editor:Editor,info:MarkdownFileInfo) => {
+			this.app.workspace.on("editor-change", async (editor:Editor) => {
 				const file = this.app.workspace.getActiveFile();
 				if (!file) {
 					return;
