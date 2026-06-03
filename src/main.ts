@@ -121,7 +121,7 @@ export default class AutoTOCPlugin extends Plugin {
 				const file = this.app.workspace.getActiveFile();
 				if (file) {
 					const fileName = file.basename;
-					this.app.vault.process(file, (fileContent) => {
+					await this.app.vault.process(file, (fileContent) => {
 						return createToc(fileContent, fileName,this);
 					});
 				}
@@ -155,7 +155,7 @@ export default class AutoTOCPlugin extends Plugin {
 				const checkTOC = await checkToc(file);
 				if (!checkTOC) {return;}
 				const toc = await newToc(file,this)
-				this.app.vault.process(file, (fileContent) => {
+				await this.app.vault.process(file, (fileContent) => {
 					return updateFileToc(fileContent,toc);
 				});
 				return;
@@ -204,7 +204,7 @@ export default class AutoTOCPlugin extends Plugin {
 				const [updateToc,toc] = await shouldUpdateToc(file,this)
 				if(!updateToc){	return;}
 				//const Re = new RegExp(tableStart  + ".+" + endTable)
-				this.app.vault.process(file, (fileContent) => {
+				await this.app.vault.process(file, (fileContent) => {
 					return updateFileToc(fileContent,toc);
 				});
 				return;
