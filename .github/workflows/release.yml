@@ -9,7 +9,10 @@ jobs:
   build:
     runs-on: ubuntu-latest
     permissions:
+      id-token: write
       contents: write
+      attestations: write
+      packages: write
     steps:
       - uses: actions/checkout@v3
 
@@ -22,6 +25,12 @@ jobs:
         run: |
           npm install
           npm run build
+      
+      - name: Attest Plugin Artifacts
+        uses: actions/attest-build-provenance@v4
+        with:
+          subject-path: |
+            main.js
 
       - name: Create release
         env:
@@ -32,4 +41,4 @@ jobs:
           gh release create "$tag" \
             --title="$tag" \
             --draft \
-            main.js manifest.json styles.css
+            main.js manifest.json
