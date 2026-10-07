@@ -2,7 +2,7 @@
 
 [![Version](https://img.shields.io/github/v/release/BrMacCath/Table-of-Contents?include_prereleases&label=latest&logo=github&labelColor=%2322c55e)](https://github.com/BrMacCath/Table-of-Contents/releases)  
 [![Downloads](https://img.shields.io/badge/dynamic/json?logo=obsidian&color=%23483699&label=downloads&query=%24%5B%22table-of-contents-automatic-but-compatible-with-publish%22%5D.downloads&url=https%3A%2F%2Fraw.githubusercontent.com%2Fobsidianmd%2Fobsidian-releases%2Fmaster%2Fcommunity-plugin-stats.json)](https://obsidian.md/plugins?search=TOC%20compatible%20with%20Publish) 
-[![Test status](https://github.com/BrMacCath/Table-of-Contents/actions/workflows/release.yml/badge.svg)](https://github.com/BrMacCath/Table-of-Contents/actions/workflows/release.yml)
+[![Test](https://github.com/BrMacCath/Table-of-Contents/actions/workflows/release.yml/badge.svg)](https://github.com/BrMacCath/Table-of-Contents/actions/workflows/release.yml)
 
 > Table of contents plugin that will be compatible with Publish.
 
@@ -109,6 +109,7 @@ This project uses [semver](http://semver.org/).
 
 | version | Date        | Notes                    |
 | ------- | ----------  | ------------------------ |
+| `3.3.0` | 2026-10-07  | Added vitest tests to code  |
 | `3.2.9` | 2026-06-04  | Refactoring to better suit Obsidian tests|
 | `3.2.4` | 2026-06-03  | Can adjust how subheadings are linked to|
 | `3.2.3` | 2026-06-03  | Can turn off automatic updates|
