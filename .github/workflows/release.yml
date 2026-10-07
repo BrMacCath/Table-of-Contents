@@ -29,6 +29,11 @@ jobs:
       - name: Run tests
         run: |
           npm run test
+          
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v5
+        env:
+          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
       
       - name: Attest Plugin Artifacts
         uses: actions/attest-build-provenance@v4
@@ -46,7 +51,3 @@ jobs:
             --title="$tag" \
             --draft \
             main.js manifest.json
-      - name: Upload coverage to Codecov
-        uses: codecov/codecov-action@v5
-        env:
-          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
