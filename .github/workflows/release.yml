@@ -25,6 +25,10 @@ jobs:
         run: |
           npm install
           npm run build
+
+      - name: Run tests
+        run: |
+          npm run tests
       
       - name: Attest Plugin Artifacts
         uses: actions/attest-build-provenance@v4
