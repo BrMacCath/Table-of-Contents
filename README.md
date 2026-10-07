@@ -109,6 +109,7 @@ This project uses [semver](http://semver.org/).
 
 | version | Date        | Notes                    |
 | ------- | ----------  | ------------------------ |
+| `3.3.1` | 2026-10-07  | Updated node for testing |
 | `3.3.0` | 2026-10-07  | Added vitest tests to code  |
 | `3.2.9` | 2026-06-04  | Refactoring to better suit Obsidian tests|
 | `3.2.4` | 2026-06-03  | Can adjust how subheadings are linked to|
