@@ -28,7 +28,6 @@ export function createSubheadingIndex(
        tempContent.push([spaceIndex,line.slice(spaceIndex).trim()])
     } )
     const indexNumArray = new Array(maxDepth).fill(0);
-    console.log(shorterHeadingLinks)
     tempContent.forEach((headingContent)=>{
         const headingDepth= headingContent[0];
         const headingTitle = headingContent[1];
