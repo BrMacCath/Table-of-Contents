@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<testsuites name="vitest tests" tests="3" failures="0" errors="0" time="0.0054805">
+    <testsuite name="src/markdownFunctions/vitestMarkdownTests.spec.ts" timestamp="2026-10-08T07:41:20.644Z" hostname="DESKTOP-1GEJCCJ" tests="3" failures="0" errors="0" skipped="0" time="0.0054805">
+        <testcase classname="src/markdownFunctions/vitestMarkdownTests.spec.ts" name="Test that strings are removed &gt; Removes all strings if there is a groups " time="0.0024826">
+        </testcase>
+        <testcase classname="src/markdownFunctions/vitestMarkdownTests.spec.ts" name="Test that strings are removed &gt; Does not remove substrings of the element " time="0.0006518">
+        </testcase>
+        <testcase classname="src/markdownFunctions/vitestMarkdownTests.spec.ts" name="Code Blocks are removed &gt; Shows code blocks are removed " time="0.0005749">
+        </testcase>
+    </testsuite>
+</testsuites>
