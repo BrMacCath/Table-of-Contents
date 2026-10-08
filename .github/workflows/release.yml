@@ -2,6 +2,8 @@ name: Test
 
 on:
   push:
+    branches:
+      - "**"
     tags:
       - "*"
 
@@ -28,7 +30,7 @@ jobs:
 
       - name: Run tests
         run: |
-          npm run test
+          npm run test -- --coverage
           
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v5
