@@ -1,14 +1,10 @@
-// vite.config.js
-import { defineConfig } from "vite";
-import { codecovVitePlugin } from "@codecov/vite-plugin";
+import { defineConfig } from "vitest/config";
 
 export default defineConfig({
-  plugins: [
-    // Put the Codecov vite plugin after all other plugins
-    codecovVitePlugin({
-      enableBundleAnalysis: process.env.CODECOV_TOKEN !== undefined,
-      bundleName: "toc-compatible-with-publish",
-      uploadToken: process.env.CODECOV_TOKEN,
-    }),
-  ],
+  test: {
+    coverage: {
+      provider: "v8",
+      reporter: ["text", "lcov"],
+    },
+  },
 });

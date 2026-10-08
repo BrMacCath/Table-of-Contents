@@ -18,13 +18,13 @@ class TOCTab extends PluginSettingTab{
 
 	// Resolve "tocSettings.arrowType" style keys against plugin.settings
 	getControlValue(key: string): unknown {
-		return key.split(".").reduce<any>((obj, k) => obj?.[k], this.plugin.settings);
+		return key.split(".").reduce((obj, k) => obj?.[k], this.plugin.settings);
 	}
 
 	async setControlValue(key: string, value: unknown): Promise<void> {
 		const parts = key.split(".");
 		const last = parts.pop()!;
-		const target = parts.reduce<any>((obj, k) => obj[k], this.plugin.settings);
+		const target = parts.reduce((obj, k) => obj[k], this.plugin.settings);
 		target[last] = value;
 		await this.plugin.saveSettings();
 	}
