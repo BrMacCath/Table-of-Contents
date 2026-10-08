@@ -7,7 +7,7 @@ export default defineConfig({
     // Put the Codecov vite plugin after all other plugins
     codecovVitePlugin({
       enableBundleAnalysis: process.env.CODECOV_TOKEN !== undefined,
-      bundleName: "<bundle project name>",
+      bundleName: "toc-compatible-with-publish",
       uploadToken: process.env.CODECOV_TOKEN,
     }),
   ],
