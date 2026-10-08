@@ -10,21 +10,37 @@ import { RemoveCharactersFromTitles } from "./modal/RemoveCharactersModal";
 import { headingUpdated } from "./markdownFunctions/headingUpdated";
 import { newToc } from "./markdownFunctions/newToc";
 
+type SettingsRecord = Record<string, unknown>;
+function isRecord(value: unknown): value is SettingsRecord {
+	return typeof value === "object" && value !== null;
+}
+
 class TOCTab extends PluginSettingTab{
 	plugin!: AutoTOCPlugin
 	constructor(app:App,plugin:AutoTOCPlugin){
 		super(app,plugin)
 	}
-
 	// Resolve "tocSettings.arrowType" style keys against plugin.settings
 	getControlValue(key: string): unknown {
-		return key.split(".").reduce((obj, k) => obj?.[k], this.plugin.settings);
+	let current: unknown = this.plugin.settings;
+	for (const part of key.split(".")) {
+		if (!isRecord(current)) return undefined;
+		current = current[part];
 	}
+	return current;
+}
 
 	async setControlValue(key: string, value: unknown): Promise<void> {
 		const parts = key.split(".");
 		const last = parts.pop()!;
-		const target = parts.reduce((obj, k) => obj[k], this.plugin.settings);
+
+		let target: unknown = this.plugin.settings;
+		for (const part of parts) {
+			if (!isRecord(target)) return;
+			target = target[part];
+		}
+		if (!isRecord(target)) return;
+
 		target[last] = value;
 		await this.plugin.saveSettings();
 	}
