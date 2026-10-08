@@ -1,4 +1,4 @@
-import { App, Editor, MarkdownFileInfo,  Plugin, PluginSettingTab, Setting } from "obsidian";
+import { App, Editor, MarkdownFileInfo,  Plugin, PluginSettingTab, SettingDefinitionItem, Setting } from "obsidian";
 import { createToc } from "./markdownFunctions/createToc";
 import { checkToc } from "./markdownFunctions/checkTOC";
 import { shouldUpdateToc } from "./markdownFunctions/shouldUpdateToc";
@@ -15,6 +15,108 @@ class TOCTab extends PluginSettingTab{
 	constructor(app:App,plugin:AutoTOCPlugin){
 		super(app,plugin)
 	}
+
+	// Resolve "tocSettings.arrowType" style keys against plugin.settings
+	getControlValue(key: string): unknown {
+		return key.split(".").reduce<any>((obj, k) => obj?.[k], this.plugin.settings);
+	}
+
+	async setControlValue(key: string, value: unknown): Promise<void> {
+		const parts = key.split(".");
+		const last = parts.pop()!;
+		const target = parts.reduce<any>((obj, k) => obj[k], this.plugin.settings);
+		target[last] = value;
+		await this.plugin.saveSettings();
+	}
+
+	getSettingDefinitions(): SettingDefinitionItem[] {
+		return [
+			{
+				type: "group",
+				heading: "Adjust table of contents conditions",
+				items: [
+					{
+						name: "Choose list style",
+						desc: "Choose the arrow type for your table of contents",
+						control: {
+							type: "dropdown",
+							key: "tocSettings.arrowType",
+							options: Object.fromEntries(arrowTypeChoices.map((c) => [c, c])),
+						},
+					},
+					{
+						name: "Choose the title for the table of contents",
+						desc: "How do you want the table of contents to start.",
+						control: { type: "textarea", key: "tocSettings.title" },
+					},
+					{
+						name: "Does your page contain code blocks",
+						desc: "The plugin needs to know to avoid the comments in these code blocks.",
+						control: {
+							type: "dropdown",
+							key: "tocSettings.codeBlocks",
+							options: { y: "y", n: "n" },
+						},
+					},
+				],
+			},
+			{
+				type: "group",
+				heading: "Adjust table of contents",
+				items: [
+					{
+						name: "Automatically update the table of contents.",
+						desc: "Automatically updates the table of contents. Toggle off to turn off. May need to reload the app for this to take effect.",
+						control: { type: "toggle", key: "autoUpdate" },
+					},
+					{
+						name: "Adjust subheading links.",
+						desc: "Toggle on to turn all subheadings to a single hashtag.",
+						control: { type: "toggle", key: "shorterHeadingLinks" },
+					},
+					{
+						name: "Include content from before the table of contents.",
+						desc: "Will include the headings from before the table of contents. Toggle off to ignore these",
+						control: { type: "toggle", key: "includePreToc" },
+					},
+					{
+						name: "Remove text styling from titles in TOC.",
+						desc: "Will remove bold fonts and strikethroughs in table of contents.",
+						control: { type: "toggle", key: "textStyling.removeTextStyling" },
+					},
+					{
+						name: "Remove html from titles in TOC.",
+						desc: "Removes and html elements you have in titles.",
+						control: { type: "toggle", key: "textStyling.removeHtml" },
+					},
+					{
+						name: "Remove wikilinks from titles in TOC.",
+						desc: "If you have links in titles, will remove the [[ and ]] in the table of contents.",
+						control: { type: "toggle", key: "textStyling.removeWikilinks" },
+					},
+					{
+						name: "Remove footnotes from titles in TOC.",
+						desc: "Removes footnotes from title in table of contents.",
+						control: { type: "toggle", key: "textStyling.removeFootnotes" },
+					},
+					{
+						name: "Add New characters to remove from titles.",
+						desc: "Individualise what you want in your TOC by removing what you don't want.",
+						render: (setting) => {
+							setting.addButton((btn) => {
+								btn.setButtonText("Open modal to organise this.");
+								btn.onClick(() => {
+									new RemoveCharactersFromTitles(this.app, this.plugin).open();
+								});
+							});
+						},
+					},
+				],
+			},
+		];
+	 }
+
+
 	display(): void {
 		const {containerEl} = this;
 		containerEl.empty();
@@ -131,10 +233,8 @@ class TOCTab extends PluginSettingTab{
 				new RemoveCharactersFromTitles(this.app,this.plugin).open()
 			})
 		})
-        }
-		
-		
-	}
+	}	
+}
 
 
 export default class AutoTOCPlugin extends Plugin {
